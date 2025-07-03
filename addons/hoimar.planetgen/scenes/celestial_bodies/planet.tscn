@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtmgyl1uf7auy"]
+[gd_scene load_steps=7 format=3 uid="uid://dtmgyl1uf7auy"]
 
 [ext_resource type="Script" uid="uid://dojj4tue7mt42" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/planet.gd" id="1"]
 [ext_resource type="Material" uid="uid://d082qpq5nmg6j" path="res://addons/hoimar.planetgen/resources/materials/water.tres" id="2"]
@@ -12,7 +12,10 @@ height = 52.0
 radial_segments = 256
 rings = 128
 
-[node name="Planet" type="Node3D" groups=["planets"]]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_88oxr"]
+albedo_color = Color(0.20249, 0.544541, 0.736925, 1)
+
+[node name="Planet" type="Node3D"]
 script = ExtResource("1")
 
 [node name="TerrainManager" type="Node3D" parent="."]
@@ -25,3 +28,4 @@ shader_params/u_day_color1 = Color(0.72549, 0.854902, 0.945098, 1)
 [node name="WaterSphere" type="MeshInstance3D" parent="."]
 gi_mode = 0
 mesh = SubResource("1")
+surface_material_override/0 = SubResource("StandardMaterial3D_88oxr")

@@ -9,6 +9,8 @@ extends Resource
 @export var radius: float = 100: set = set_radius
 ## Whether the planet has water.
 @export var has_water: bool = false: set = set_has_water
+## The water level of the planet, offset from planet radius.
+@export var water_level_offset: float = 0.0: set = set_water_level_offset
 ## Whether the planet has an atmosphere.
 @export var has_atmosphere: bool = true: set = set_has_atmosphere
 ## Whether the planet has collisions.
@@ -17,6 +19,8 @@ extends Resource
 @export_range(1.0, 10000.0) var atmosphere_thickness: float = 1.15: set = set_atmosphere_thickness
 ## The density of the atmosphere.
 @export_range(0.0, 1.0) var atmosphere_density: float = 0.1: set = set_atmosphere_density
+## The padding to add to the atmosphere radius.
+@export var atmosphere_padding: float = 0.0: set = set_atmosphere_padding
 ## The shape generator for the planet's terrain.
 @export var shape_generator: ShapeGenerator
 
@@ -56,6 +60,12 @@ func set_has_water(new: bool):
 	on_settings_changed()
 
 
+## Sets the water level offset.
+func set_water_level_offset(new: float):
+	water_level_offset = new
+	on_settings_changed()
+
+
 ## Sets whether the planet has an atmosphere.
 func set_has_atmosphere(new: bool):
 	has_atmosphere = new
@@ -72,7 +82,12 @@ func set_atmosphere_thickness(new: float):
 func set_atmosphere_density(new: float):
 	atmosphere_density = new
 	on_settings_changed()
-	
+
+
+## Sets the padding to add to the atmosphere radius.
+func set_atmosphere_padding(new: float):
+	atmosphere_padding = new
+	on_settings_changed()
 
 ## Sets whether the planet has collisions.
 func set_has_collisions(new: bool):

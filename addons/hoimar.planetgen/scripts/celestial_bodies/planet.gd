@@ -24,17 +24,37 @@ var mass: float = pow(10.0, 10)   # TODO: Make this configurable through setting
 @onready var _atmosphere = $Atmosphere
 @onready var _water_sphere: MeshInstance3D = $WaterSphere
 
+var _debounce_counter := 0.0
+var _needs_generate := false
+
+
+## Required time between generations (in seconds)
+const GENERATE_DEBOUNCE = 0.2
+
 
 func _ready():
+	add_to_group("planets")
 	if not _org_water_mesh:
 		_org_water_mesh = _water_sphere.mesh
 	generate()
+
+
+func _process(delta: float) -> void:
+	_debounce_counter = maxf(_debounce_counter - delta, 0)
+	
+	if _needs_generate and _debounce_counter <= 0:
+		_needs_generate = false
+		generate()
 
 
 ## Generate whole planet.
 func generate():
 	if not are_conditions_met():
 		return
+	if _debounce_counter > 0:
+		_needs_generate = true
+		return
+	_debounce_counter = GENERATE_DEBOUNCE
 	var time_before = Time.get_ticks_msec()
 	settings.init(self)
 	_terrain.generate(settings, material)
@@ -42,10 +62,11 @@ func generate():
 	# Adjust water.
 	_water_sphere.visible = settings.has_water
 	if settings.has_water:
-		var material :Material = _org_water_mesh.surface_get_material(0).duplicate()
-		var mesh : SphereMesh = _org_water_mesh.duplicate()
-		mesh.radius = settings.radius
-		mesh.height = settings.radius*2
+		var material: Material = _org_water_mesh.surface_get_material(0).duplicate()
+		var mesh: SphereMesh = SphereMesh.new()
+		var water_radius: float = settings.radius + settings.water_level_offset
+		mesh.radius = water_radius
+		mesh.height = water_radius*2
 		mesh.surface_set_material(0, material)
 		_water_sphere.mesh = mesh
 		material.set_shader_parameter("planet_radius", settings.radius)
@@ -53,7 +74,7 @@ func generate():
 	# Adjust atmosphere.
 	_atmosphere.visible = settings.has_atmosphere
 	if settings.has_atmosphere:
-		_atmosphere.planet_radius = settings.radius
+		_atmosphere.planet_radius = settings.radius + settings.atmosphere_padding
 		_atmosphere.atmosphere_height = settings.atmosphere_thickness
 		_atmosphere.atmosphere_density = settings.atmosphere_density
 		_atmosphere.set_sun_path("../" + str(sun_path))
@@ -92,7 +113,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 	var strArr = PackedStringArray([])
 	if settings and settings.has_atmosphere and sun_path.is_empty():
 		strArr.append("Node path to sun node is not set in 'Sun Path3D'.")
-	if solar_system_path.is_empty():
+	if !solar_system_path or solar_system_path.is_empty():
 		strArr.append("Node path to the solar system node is not set in 'Solar System Path3D'.")
 	return strArr
 

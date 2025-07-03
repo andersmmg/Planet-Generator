@@ -11,10 +11,10 @@ script = ExtResource("2")
 enabled = true
 use_first_as_mask = false
 seed_value = 3
-strength = 0.003
+strength = 0.002
 fractal_octaves = 4
 period = 0.2
-frequency = 0.6
+frequency = 5.0
 center = Vector3(1, 1, 0)
 
 [sub_resource type="Resource" id="2"]
@@ -26,7 +26,7 @@ seed_value = 13
 strength = 2.0
 fractal_octaves = 4
 period = 0.1
-frequency = 0.6
+frequency = 5.0
 center = Vector3(0.133, 0, 0)
 
 [sub_resource type="Resource" id="3"]
@@ -38,7 +38,7 @@ seed_value = 0
 strength = 0.05
 fractal_octaves = 4
 period = 0.001
-frequency = 0.6
+frequency = 5.0
 center = Vector3(1, 2, 3)
 
 [sub_resource type="Resource" id="4"]
@@ -48,12 +48,12 @@ noise_generators = Array[ExtResource("3")]([SubResource("1"), SubResource("2"), 
 [resource]
 script = ExtResource("4")
 resolution = 77
-radius = 150.0
+radius = 1000.0
 has_water = false
 water_level_offset = 0.0
-has_atmosphere = true
+has_atmosphere = false
 has_collisions = true
 atmosphere_thickness = 8.0
 atmosphere_density = 0.02
-atmosphere_padding = 0.0
+atmosphere_padding = 5.0
 shape_generator = SubResource("4")

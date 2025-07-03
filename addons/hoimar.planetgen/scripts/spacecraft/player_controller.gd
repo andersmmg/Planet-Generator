@@ -34,17 +34,17 @@ func _physics_process(delta):
 	if Input.is_key_pressed(KEY_E):
 		rotation_z = -Ship.ROTATIONSPEED
 	if rotation_z:
-		ship.rotate(ship.transform.basis.z, rotation_z)
+		ship.rotate(ship.transform.basis.z, rotation_z * delta)
 
-	if input:
+	if input.length() > 0:
 		ship.apply_thrust(input)
 
 
 func _input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not Input.is_action_pressed("toggle_camera_mode"):
-		_mouse_speed = event.relative * Constants.MOUSE_SENSITIVITY
-		ship.rotate(ship.transform.basis.y.normalized(), deg_to_rad(-_mouse_speed.x))
-		ship.rotate(ship.transform.basis.x.normalized(), deg_to_rad(-_mouse_speed.y))
+		_mouse_speed = event.relative * Constants.MOUSE_SENSITIVITY * 0.005
+		ship.rotate(ship.transform.basis.y.normalized(), -_mouse_speed.x)
+		ship.rotate(ship.transform.basis.x.normalized(), -_mouse_speed.y)
 	elif event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			ship.speed_scale += Ship.SPEED_INCREMENT

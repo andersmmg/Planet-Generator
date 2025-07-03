@@ -29,7 +29,7 @@ solar_system_path = NodePath("..")
 sun_path = NodePath("../Sun")
 
 [node name="AlienPlanet" parent="." instance=ExtResource("2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3064.12, 811.559, 936.359)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8056.69, 811.559, 936.359)
 settings = ExtResource("7")
 material = ExtResource("9")
 solar_system_path = NodePath("..")

@@ -34,17 +34,17 @@ func _ready():
 	set_process_input(true)
 
 func _physics_process(_delta):
-	var input: Vector2 = Vector2()
+	var input := Vector3.ZERO
 	var rotation_z = 0
 	# Ship movement input.
 	if Input.is_key_pressed(KEY_W):
-		input.x = 1
+		input.z = -1
 	if Input.is_key_pressed(KEY_S):
-		input.x = -1
+		input.z = 1
 	if Input.is_key_pressed(KEY_A):
-		input.y = 1
+		input.x = -1
 	if Input.is_key_pressed(KEY_D):
-		input.y = -1
+		input.x = 1
 	if Input.is_key_pressed(KEY_SHIFT):
 		input *= 10
 	if Input.is_key_pressed(KEY_Q):
@@ -58,14 +58,12 @@ func _physics_process(_delta):
 		_camera_tween.start()
 	
 	if rotation_z:
-		rotate(transform.basis.z, rotation_z)
-	_current_speed += speed_scale * input.x
-	_current_speed = clamp(_current_speed, -MAXSPEED, MAXSPEED)
-	if abs(_current_speed) < 1 / 1000:
-		_current_speed = 0
-	
+		rotate_object_local(Vector3.FORWARD, rotation_z)
+
 	# Move the ship.
-	move_and_collide(-transform.basis.z * _current_speed)   # Forward movement.
+	var direction = (transform.basis.z * input.z + transform.basis.x * input.x).normalized()
+	velocity = direction * MAXSPEED
+	move_and_slide()
 	
 	shake_camera()
 	adjust_thrusters()

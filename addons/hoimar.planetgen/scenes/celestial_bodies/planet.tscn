@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://dtmgyl1uf7auy"]
 
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/planet.gd" id="1"]
+[ext_resource type="Script" uid="uid://dojj4tue7mt42" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/planet.gd" id="1"]
 [ext_resource type="Material" uid="uid://d082qpq5nmg6j" path="res://addons/hoimar.planetgen/resources/materials/water.tres" id="2"]
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/terrain/terrain_manager.gd" id="3"]
+[ext_resource type="Script" uid="uid://uveusak23r21" path="res://addons/hoimar.planetgen/scripts/terrain/terrain_manager.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://ckkxbem2k2tmx" path="res://addons/hoimar.planetgen/scenes/celestial_bodies/atmosphere.tscn" id="4"]
 
 [sub_resource type="SphereMesh" id="1"]

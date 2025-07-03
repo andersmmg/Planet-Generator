@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://fqjq3odx4ugm"]
 
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/sun.gd" id="1"]
+[ext_resource type="Script" uid="uid://ca0uowsp7xp5n" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/sun.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dtmgyl1uf7auy" path="res://addons/hoimar.planetgen/scenes/celestial_bodies/planet.tscn" id="3"]
 [ext_resource type="Material" uid="uid://5rm3b3klqa6f" path="res://addons/hoimar.planetgen/resources/materials/sun_bloom_material.tres" id="5"]
 

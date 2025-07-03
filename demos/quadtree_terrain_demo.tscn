@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://cv3jth7u5rno3"]
 
-[ext_resource type="Script" path="res://demos/quadtree_terrain_demo.gd" id="1"]
+[ext_resource type="Script" uid="uid://1j1qi3sd22mb" path="res://demos/quadtree_terrain_demo.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://btubuuiux53j4" path="res://addons/hoimar.planetgen/scenes/gui/gui.tscn" id="2"]
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/solar_system.gd" id="3_hi6yo"]
+[ext_resource type="Script" uid="uid://bidgjbcvwsf83" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/solar_system.gd" id="3_hi6yo"]
 [ext_resource type="PackedScene" uid="uid://dtmgyl1uf7auy" path="res://addons/hoimar.planetgen/scenes/celestial_bodies/planet.tscn" id="4"]
 [ext_resource type="Resource" uid="uid://kono1hjgsisy" path="res://addons/hoimar.planetgen/planet_presets/test_planet_settings.tres" id="6"]
 

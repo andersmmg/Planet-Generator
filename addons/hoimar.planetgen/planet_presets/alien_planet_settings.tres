@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="PlanetSettings" load_steps=9 format=3 uid="uid://bfhq5kbvtn36a"]
 
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/terrain/shape_generator.gd" id="1"]
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/terrain/ridged_noise_generator.gd" id="2"]
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/terrain/noise_generator.gd" id="3"]
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/planet_settings.gd" id="4"]
+[ext_resource type="Script" uid="uid://d1iirw4ofebo8" path="res://addons/hoimar.planetgen/scripts/terrain/shape_generator.gd" id="1"]
+[ext_resource type="Script" uid="uid://cyywf0d3iwsrk" path="res://addons/hoimar.planetgen/scripts/terrain/ridged_noise_generator.gd" id="2"]
+[ext_resource type="Script" uid="uid://xypgay2rjrdd" path="res://addons/hoimar.planetgen/scripts/terrain/noise_generator.gd" id="3"]
+[ext_resource type="Script" uid="uid://g0lfqwuyhxlp" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/planet_settings.gd" id="4"]
 
 [sub_resource type="Resource" id="1"]
 resource_name = "Large Ridges"
@@ -43,7 +43,7 @@ center = Vector3(1, 2, 3)
 
 [sub_resource type="Resource" id="4"]
 script = ExtResource("1")
-noise_generators = [SubResource("1"), SubResource("2"), SubResource("3")]
+noise_generators = Array[ExtResource("3")]([SubResource("1"), SubResource("2"), SubResource("3")])
 
 [resource]
 script = ExtResource("4")

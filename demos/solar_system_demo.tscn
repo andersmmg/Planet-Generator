@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://xqufprx78lly"]
 
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/solar_system.gd" id="1"]
+[ext_resource type="Script" uid="uid://bidgjbcvwsf83" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/solar_system.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dtmgyl1uf7auy" path="res://addons/hoimar.planetgen/scenes/celestial_bodies/planet.tscn" id="2"]
 [ext_resource type="Resource" uid="uid://dd88lsn35g60e" path="res://addons/hoimar.planetgen/planet_presets/earthlike_planet_settings.tres" id="3"]
 [ext_resource type="Environment" uid="uid://b0aokqtycy50o" path="res://addons/hoimar.planetgen/resources/space_environment.tres" id="4"]

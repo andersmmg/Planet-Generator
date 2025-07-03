@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ckkxbem2k2tmx"]
 
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/atmosphere/planet_atmosphere.gd" id="1"]
+[ext_resource type="Script" uid="uid://djcj2b36btxc1" path="res://addons/hoimar.planetgen/scripts/atmosphere/planet_atmosphere.gd" id="1"]
 
 [node name="Atmosphere" type="Node3D"]
 script = ExtResource("1")

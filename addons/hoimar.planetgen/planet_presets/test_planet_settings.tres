@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="PlanetSettings" load_steps=6 format=3 uid="uid://kono1hjgsisy"]
 
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/planet_settings.gd" id="1"]
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/terrain/noise_generator.gd" id="2"]
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/terrain/shape_generator.gd" id="3"]
+[ext_resource type="Script" uid="uid://g0lfqwuyhxlp" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/planet_settings.gd" id="1"]
+[ext_resource type="Script" uid="uid://xypgay2rjrdd" path="res://addons/hoimar.planetgen/scripts/terrain/noise_generator.gd" id="2"]
+[ext_resource type="Script" uid="uid://d1iirw4ofebo8" path="res://addons/hoimar.planetgen/scripts/terrain/shape_generator.gd" id="3"]
 
 [sub_resource type="Resource" id="1"]
 script = ExtResource("2")
@@ -17,11 +17,11 @@ center = Vector3(0, 0, 0)
 
 [sub_resource type="Resource" id="2"]
 script = ExtResource("3")
-noise_generators = [SubResource("1")]
+noise_generators = Array[ExtResource("2")]([SubResource("1")])
 
 [resource]
 script = ExtResource("1")
-resolution = 10
+resolution = 30
 radius = 100.0
 has_water = false
 has_atmosphere = false

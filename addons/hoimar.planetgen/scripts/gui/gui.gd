@@ -54,4 +54,3 @@ func update_speed_scale(value):
 	lbl_speedscale.text = str(value)
 	slider_speedscale.value = value
 	PGGlobals.speed_scale = value
-

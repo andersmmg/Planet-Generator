@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://btubuuiux53j4"]
 
-[ext_resource type="Script" path="res://addons/hoimar.planetgen/scripts/gui/gui.gd" id="1"]
+[ext_resource type="Script" uid="uid://dwagphrhy3b06" path="res://addons/hoimar.planetgen/scripts/gui/gui.gd" id="1"]
 
 [node name="Gui" type="CanvasLayer"]
 script = ExtResource("1")

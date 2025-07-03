@@ -9,7 +9,7 @@ extends Resource
 @export var has_collisions: bool = true: set = set_has_collisions
 @export_range(1.0, 10000.0) var atmosphere_thickness: float = 1.15: set = set_atmosphere_thickness
 @export_range(0.0, 1.0) var atmosphere_density: float = 0.1: set = set_atmosphere_density
-@export var shape_generator: Resource
+@export var shape_generator: ShapeGenerator
 
 var _planet: Node3D: get = get_planet
 var shared_mutex := Mutex.new()   # Used for threads creating physics shapes.

@@ -3,7 +3,7 @@
 class_name SolarSystem
 extends Node3D
 
-var _all_planets: Array
+var _all_planets: Array[Planet]
 var _logger := Logger.get_for(self)
 
 

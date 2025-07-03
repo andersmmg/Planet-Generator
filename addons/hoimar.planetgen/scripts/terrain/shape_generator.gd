@@ -4,7 +4,7 @@ extends Resource
 
 const Const := preload("../constants.gd")
 
-@export var noise_generators: Array
+@export var noise_generators: Array[NoiseGenerator]
 var _planet
 var mask: float
 var ng_array: Array   # May help a tiny bit by preallocating instead of allocating for every call.

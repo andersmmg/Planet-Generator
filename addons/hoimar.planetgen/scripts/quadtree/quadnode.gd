@@ -49,6 +49,7 @@ func _init(parent: QuadNode, direction: Vector3, terrain_manager: Node3D, leaf_i
 
 # Update this node in the quadtree.
 func visit():
+	if not _viewer_node or not _terrain_manager: return
 	var distance: float = _viewer_node.global_transform.origin.distance_to(_terrain_manager.global_transform.origin + _center)
 	var viewer_in_range: bool = distance < _min_distance
 	
@@ -136,7 +137,7 @@ func on_ready_to_show():
 	terrain.set_visible(true)
 	_terrain_manager.add_child(terrain)
 	_state = STATE.ACTIVE
-	if not _viewer_node:
+	if not _viewer_node and terrain.get_viewport():
 		set_viewer(terrain.get_viewport().get_camera_3d())
 
 
@@ -151,5 +152,3 @@ func set_viewer(viewer: Node3D):
 	_viewer_node = viewer
 	for leaf in leaves:
 		leaf.set_viewer(viewer)
-
-

@@ -5,10 +5,10 @@ extends Node3D
 # Class for a planet taking care of terrain, atmosphere, water etc.
 
 @export var do_generate: bool = false: set = set_do_generate
-@export var settings: Resource
+@export var settings: PlanetSettings
 @export var material: Material
-@export var solar_system_path: NodePath
-@export var sun_path: NodePath
+@export_node_path("SolarSystem") var solar_system_path: NodePath
+@export_node_path("Sun") var sun_path: NodePath
 var _org_water_mesh: Mesh
 var _solar_system: Node
 var _logger := Logger.get_for(self)

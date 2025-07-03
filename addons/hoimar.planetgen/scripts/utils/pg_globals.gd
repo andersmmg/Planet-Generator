@@ -7,7 +7,7 @@ const Const := preload("../constants.gd")
 var wireframe: bool = false: set = set_wireframe
 var colored_patches: bool   # Colors patches of terrain randomly.
 var benchmark_mode: bool   # re-generates planets even if there are still active threads.
-var solar_systems: Array = []
+var solar_systems: Array[SolarSystem] = []
 var job_queue := JobQueue.new()   # Global queue for TerrainJobs.
 var speed_scale: float = 0.001
 
@@ -27,11 +27,11 @@ func queue_terrain_patch(data: PatchData) -> TerrainJob:
 	return job
 
 
-func register_solar_system(sys: Node):
+func register_solar_system(sys: SolarSystem):
 	solar_systems.append(sys)
 
 
-func unregister_solar_system(sys: Node):
+func unregister_solar_system(sys: SolarSystem):
 	solar_systems.erase(sys)
 
 

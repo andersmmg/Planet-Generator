@@ -9,4 +9,4 @@ script = ExtResource("1")
 transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 0.104189, 0.590885)
 current = true
 near = 0.3
-far = 10000.0
+far = 100000.0

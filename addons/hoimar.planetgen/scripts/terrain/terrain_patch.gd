@@ -1,6 +1,6 @@
 @tool
 class_name TerrainPatch
-# Represents a patch of terrain tied to a quad tree node.
+## Represents a patch of terrain tied to a quad tree node.
 extends MeshInstance3D
 
 const Const := preload("../constants.gd")
@@ -11,7 +11,8 @@ var vertices: PackedVector3Array
 var triangles: PackedInt32Array
 var uvs: PackedVector2Array
 var normals: PackedVector3Array
-var faces: PackedVector3Array   # Vertices in a format that physics can use.
+## Vertices in a format that physics can use.
+var faces: PackedVector3Array
 
 var _body_rid: RID    # Godot's internal resource ID for the physics body.
 var _shape_rid: RID   # As above, but for the bodies' shape.
@@ -33,7 +34,7 @@ func _notification(what):
 		update_transform()   # Manually update physics shape position.
 
 
-# Builds the terrain mesh from generator data.
+## Builds the terrain mesh from generator data.
 func build(data: PatchData):
 	self.data           = data
 	self.quadnode       = data.quadnode
@@ -110,8 +111,8 @@ func build(data: PatchData):
 	set_visible(false)
 
 
-# Create physics body & shape.
-# TODO: PhysicsServer is not multi-threading safe here, should be fixed in 4.0.
+## Create physics body & shape.
+## TODO: PhysicsServer is not multi-threading safe here, should be fixed in 4.0.
 func init_physics():
 	data.settings.shared_mutex.lock()
 	_shape_rid = PhysicsServer3D.concave_polygon_shape_create()
@@ -126,6 +127,7 @@ func init_physics():
 	PhysicsServer3D.body_set_collision_mask(_body_rid, 1)
 
 
+## Updates the transform of the physics body.
 func update_transform():
 	print(_body_rid)
 	var transform: Transform3D = data.settings._planet.global_transform
@@ -133,7 +135,7 @@ func update_transform():
 			transform)
 
 
-# Prevents jagged LOD borders by lowering border vertices.
+## Prevents jagged LOD borders by lowering border vertices.
 func calc_terrain_border():
 	var verts_per_edge = data.verts_per_edge
 	var dip: float = pow(Const.BORDER_DIP, data.size)
@@ -151,9 +153,9 @@ func calc_terrain_border():
 		vertices[idx] *= dip
 
 
-# Calculates smooth normals for all vertices by averaging (normalizing) mesh
-# normals. This is done by accumulating the normals calculated from triangles
-# and normalizing the resulting vector, thus building an average.
+## Calculates smooth normals for all vertices by averaging (normalizing) mesh
+## normals. This is done by accumulating the normals calculated from triangles
+## and normalizing the resulting vector, thus building an average.
 func calc_normals():
 	for i in range(0, triangles.size(), 3):
 		var vi_a := triangles[i]
@@ -170,7 +172,7 @@ func calc_normals():
 		normals[i] = normals[i].normalized()
 
 
-# Get UV coordinates into the appropriate range.
+## Get UV coordinates into the appropriate range.
 func calc_uvs():
 	var min_max: MinMax = data.settings.shape_generator.min_max
 	var min_value := min_max.min_value
@@ -179,7 +181,7 @@ func calc_uvs():
 		uvs[i].x = remap(uvs[i].x, min_value, max_value, 0.0, 1.0)
 
 
-# Returns the meshes vertices, ordered as triangle points (a, b, c, a, b, c, …).
+## Returns the meshes vertices, ordered as triangle points (a, b, c, a, b, c, …).
 func calc_face_vertices():
 	faces.resize(triangles.size())
 	for i in triangles.size():

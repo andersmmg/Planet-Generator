@@ -2,6 +2,7 @@
 @icon("../../resources/icons/sun.svg")
 class_name Sun
 extends Planet
+## This class represents a sun in the solar system.
 
 const CORONA_SIZE := Vector2(15, 14)
 const LIGHT_OFFSET := 1.01 * Vector3.FORWARD
@@ -17,6 +18,7 @@ func _process(_delta):
 		look_at(cam.global_transform.origin, Vector3.UP)
 
 
+## Generates the sun.
 func generate():
 	await self.ready
 	if settings:

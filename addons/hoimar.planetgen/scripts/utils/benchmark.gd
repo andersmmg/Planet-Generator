@@ -1,5 +1,5 @@
 extends Node3D
-# Simple benchmark.
+## Simple benchmark.
 
 const Const := preload("../constants.gd")
 
@@ -26,6 +26,7 @@ func _on_Button_pressed():
 	start()
 
 
+## Starts the benchmark.
 func start():
 	_button_benchmark.disabled = true
 	# Finish running jobs.
@@ -43,11 +44,12 @@ func start():
 		_duration += _deltat
 		print("Iteration %d finished in %.3fms." \
 				% [i + 1, (_deltat) / 1000.0])
-		await get_tree().idle_frame
+		await get_tree().process_frame
 	stop()
 	_button_benchmark.disabled = false
 
 
+## Stops the benchmark.
 func stop():
 	var text = "Generated %d times in %.3fms." \
 			% [_spin_box.value, _duration / 1000.0]

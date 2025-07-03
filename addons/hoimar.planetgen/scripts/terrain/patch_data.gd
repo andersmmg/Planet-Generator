@@ -1,19 +1,26 @@
 class_name PatchData
-
-# Data class which holds information for one patch of terrain.
+## Data class which holds information for one patch of terrain.
 
 const Const := preload("../constants.gd")
 
-var parent_patch: Node3D   # Parent patch in the quad tree.
+## Parent patch in the quad tree.
+var parent_patch: Node3D
 var quadnode: RefCounted
 var settings: PlanetSettings
-var axis_up: Vector3      # Normal of flat cube patch.
-var axis_a: Vector3       # Axis perpendicular to the normal.
-var axis_b: Vector3       # Axis perpendicular to both above.
-var verts_per_edge: int   # Amount of vertices with border (so resolution + BORDER_SIZE * 2).
-var offset_a: Vector3     # Offsets this patch to it's quadtree cell along axis a.
-var offset_b: Vector3     # Offsets this patch to it's quadtree cell along axis b.
-var size: float           # Size of this quad. 1 is a full cube patch, 0.5 a quarter etc.
+## Normal of flat cube patch.
+var axis_up: Vector3
+## Axis perpendicular to the normal.
+var axis_a: Vector3
+## Axis perpendicular to both above.
+var axis_b: Vector3
+## Amount of vertices with border (so resolution + BORDER_SIZE * 2).
+var verts_per_edge: int
+## Offsets this patch to it's quadtree cell along axis a.
+var offset_a: Vector3
+## Offsets this patch to it's quadtree cell along axis b.
+var offset_b: Vector3
+## Size of this quad. 1 is a full cube patch, 0.5 a quarter etc.
+var size: float
 var center: Vector3
 var material: Material
 

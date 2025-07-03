@@ -1,7 +1,6 @@
 @tool
 class_name CubeQuadTree
-
-# Represents six quadtrees on a cube with one for each side.
+## Represents six quadtrees on a cube with one for each side.
 
 const Const := preload("../constants.gd")
 
@@ -13,11 +12,13 @@ func _init(terrain_manager):
 		_face_quadtrees[dir] = QuadNode.new(null, dir, terrain_manager)
 
 
+## Sets the viewer for all quadtrees.
 func set_viewer(viewer: Node3D):
 	for qt in _face_quadtrees.values():
 		qt.set_viewer(viewer)
 
 
+## Returns the total number of children in all quadtrees.
 func get_num_children() -> int:
 	var result: int
 	for qt in _face_quadtrees:

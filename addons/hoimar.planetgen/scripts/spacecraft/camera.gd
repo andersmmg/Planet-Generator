@@ -1,10 +1,13 @@
 extends Camera3D
+## A camera that follows a target with a dynamic weight.
 
 const MIN_WEIGHT: float = 0.05
 const MAX_WEIGHT: float = 0.6
 
+## The target to follow.
 @onready
 @export var target: NodePath
+## The weight of the interpolation.
 @export var weight: float = 0.6
 
 

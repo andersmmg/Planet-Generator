@@ -1,4 +1,5 @@
 extends Node
+## This class handles player input for controlling the ship.
 
 const Ship := preload("ship.gd")
 const Constants := preload("../constants.gd")

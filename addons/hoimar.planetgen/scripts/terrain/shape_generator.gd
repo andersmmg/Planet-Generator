@@ -1,17 +1,22 @@
 @tool
 class_name ShapeGenerator
 extends Resource
+## This resource contains the settings for a shape generator.
 
 const Const := preload("../constants.gd")
 
+## The noise generators to use for generating the shape.
 @export var noise_generators: Array[NoiseGenerator]
 var _planet
 var mask: float
-var ng_array: Array   # May help a tiny bit by preallocating instead of allocating for every call.
+## May help a tiny bit by preallocating instead of allocating for every call.
+var ng_array: Array
 var min_max: MinMax
 var min_max_mutex := Mutex.new()
-var planet_radius: float   # Shorthand for faster access.
+## Shorthand for faster access.
+var planet_radius: float
 
+## Initializes the shape generator.
 func init(_planet):
 	self._planet = _planet
 	self.min_max = MinMax.new()
@@ -22,8 +27,8 @@ func init(_planet):
 	calculate_min_max()
 
 
-# Get elevation of point on unit sphere from all noise generators.
-# Contains a few micro-optimizations like branchless calculations.
+## Get elevation of point on unit sphere from all noise generators.
+## Contains a few micro-optimizations like branchless calculations.
 func get_unscaled_elevation(point_on_unit_sphere: Vector3) -> float:
 	var first_ng: NoiseGenerator = noise_generators[0]
 	var first_layer_value: float = first_ng.evaluate(point_on_unit_sphere)
@@ -38,17 +43,17 @@ func get_unscaled_elevation(point_on_unit_sphere: Vector3) -> float:
 	return elevation
 
 
-# Return previously retrieved elevation in proportion to the planet.
+## Return previously retrieved elevation in proportion to the planet.
 func get_scaled_elevationa(elevation: float) -> float:
 	return _planet.settings.radius * (1.0 + elevation)
 
 
-# Return previously retrieved elevation in proportion to the planet.
+## Return previously retrieved elevation in proportion to the planet.
 func get_scaled_elevation(elevation: float) -> float:
 	return planet_radius * (1.0 + elevation)
 
 
-# Approximates the theoretical minimal and maximal unscaled elevation.
+## Approximates the theoretical minimal and maximal unscaled elevation.
 func calculate_min_max():
 	var elevation: float
 	var first_layer_value: float = noise_generators[0].strength * Const.MIN_MAX_APPROXIMATION

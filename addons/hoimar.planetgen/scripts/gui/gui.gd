@@ -1,5 +1,5 @@
 extends Node
-# Experimental GUI to display some debug information, uses ugly private member access for now.
+## Experimental GUI to display some debug information, uses ugly private member access for now.
 
 @onready var lbl_status := $Root/MarginContainer/HBoxContainer/LabelStatus
 @onready var lbl_speedscale := $Root/MarginContainer/HBoxContainer/Control/LabelSpeedScale
@@ -27,6 +27,7 @@ func _process(_delta):
 	check_input()
 
 
+## Shows information about the planets in the solar system.
 func show_planet_info():
 	if PGGlobals.solar_systems.is_empty():
 		return
@@ -37,6 +38,7 @@ func show_planet_info():
 				[planet.name, str(planet), planet._terrain.get_children().size()]
 
 
+## Checks for input to toggle debug views.
 func check_input():
 	if Input.is_action_just_pressed("toggle_colored_patches"):
 		PGGlobals.colored_patches = !PGGlobals.colored_patches
@@ -50,6 +52,7 @@ func _on_HSlider_value_changed(value):
 		ship.speed_scale = value
 
 
+## Updates the speed scale of the game.
 func update_speed_scale(value):
 	lbl_speedscale.text = str(value)
 	slider_speedscale.value = value

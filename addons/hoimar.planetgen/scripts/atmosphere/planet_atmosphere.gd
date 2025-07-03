@@ -1,20 +1,27 @@
 @tool
-# Wraps an atmosphere rendering shader.
-# When the camera is far, it uses a cube bounding the planet.
-# When the camera is close, it uses a fullscreen quad (does not work in editor).
-# Common parameters are exposed as properties.
-
+## Wraps an atmosphere rendering shader.
+## When the camera is far, it uses a cube bounding the planet.
+## When the camera is close, it uses a fullscreen quad (does not work in editor).
+## Common parameters are exposed as properties.
 extends Node3D
 
+## The camera is close to the planet.
 const MODE_NEAR = 0
+## The camera is far from the planet.
 const MODE_FAR = 1
+## Margin for switching between near and far modes.
 const SWITCH_MARGIN_RATIO = 1.1
 
+## The atmosphere shader.
 const AtmosphereShader = preload("../../resources/materials/atmosphere.gdshader")
 
+## The radius of the planet.
 @export var planet_radius := 1.0: set = set_planet_radius
+## The height of the atmosphere.
 @export var atmosphere_height := 0.1: set = set_atmosphere_height
+## The density of the atmosphere.
 @export var atmosphere_density := 0.1: set = set_atmosphere_density
+## The path to the sun node.
 @export var sun_path: NodePath: set = set_sun_path
 
 var _far_mesh : BoxMesh
@@ -67,9 +74,11 @@ func _ready():
 	mat.set_shader_parameter("u_atmosphere_height", atmosphere_height)
 	mat.set_shader_parameter("u_clip_mode", false)
 
+## Sets a shader parameter.
 func set_shader_parameter(param_name: String, value):
 	_mesh_instance.material_override.set_shader_parameter(param_name, value)
 
+## Gets a shader parameter.
 func get_shader_parameter(param_name: String):
 	return _mesh_instance.material_override.get_shader_parameter(param_name)
 
@@ -111,6 +120,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 		strArr.append("The assigned sun node is not a Node3D.")
 	return strArr
 
+## Sets the planet radius.
 func set_planet_radius(new_radius: float):
 	if planet_radius == new_radius:
 		return
@@ -121,6 +131,7 @@ func set_planet_radius(new_radius: float):
 func _update_cull_margin():
 	_mesh_instance.extra_cull_margin = planet_radius + atmosphere_height
 
+## Sets the atmosphere height.
 func set_atmosphere_height(new_height: float):
 	if atmosphere_height == new_height:
 		return
@@ -128,6 +139,7 @@ func set_atmosphere_height(new_height: float):
 	_mesh_instance.material_override.set_shader_parameter("u_atmosphere_height", atmosphere_height)
 	_update_cull_margin()
 
+## Sets the atmosphere density.
 func set_atmosphere_density(new_density: float):
 	if atmosphere_density == new_density:
 		return
@@ -135,6 +147,7 @@ func set_atmosphere_density(new_density: float):
 	_mesh_instance.material_override.set_shader_parameter("u_density", atmosphere_density)
 	_update_cull_margin()
 
+## Sets the sun path.
 func set_sun_path(new_sun_path: NodePath):
 	sun_path = new_sun_path
 	update_configuration_warnings()

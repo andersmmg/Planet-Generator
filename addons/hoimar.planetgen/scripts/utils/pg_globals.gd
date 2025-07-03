@@ -1,14 +1,18 @@
 @tool
-# Global settings for Planet Generator.
 extends Node
+## Global settings for Planet Generator.
 
 const Const := preload("../constants.gd")
 
+## Whether to draw wireframes.
 var wireframe: bool = false: set = set_wireframe
-var colored_patches: bool   # Colors patches of terrain randomly.
-var benchmark_mode: bool   # re-generates planets even if there are still active threads.
+## Colors patches of terrain randomly.
+var colored_patches: bool
+## re-generates planets even if there are still active threads.
+var benchmark_mode: bool
 var solar_systems: Array[SolarSystem] = []
-var job_queue := JobQueue.new()   # Global queue for TerrainJobs.
+## Global queue for TerrainJobs.
+var job_queue := JobQueue.new()
 var speed_scale: float = 0.001
 
 
@@ -21,20 +25,24 @@ func _exit_tree():
 	job_queue.clean_up()
 
 
+## Queues a terrain patch to be generated.
 func queue_terrain_patch(data: PatchData) -> TerrainJob:
 	var job := TerrainJob.new(data)
 	job_queue.queue(job)
 	return job
 
 
+## Registers a solar system.
 func register_solar_system(sys: SolarSystem):
 	solar_systems.append(sys)
 
 
+## Unregisters a solar system.
 func unregister_solar_system(sys: SolarSystem):
 	solar_systems.erase(sys)
 
 
+## Sets whether to draw wireframes.
 func set_wireframe(value: bool):
 	wireframe = value
 	RenderingServer.set_debug_generate_wireframes(value)

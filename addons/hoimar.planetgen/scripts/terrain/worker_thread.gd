@@ -1,8 +1,8 @@
 @tool
 class_name WorkerThread
 extends Thread
-# Represents a single worker thread that processes terrain jobs that are set by
-# the job queue.
+## Represents a single worker thread that processes terrain jobs that are set by
+## the job queue.
 
 const Const := preload("../constants.gd")
 
@@ -16,7 +16,7 @@ func _init(job_queue: RefCounted):
 	start(Callable(self, "work"))
 
 
-# Thread function.
+## Thread function.
 func work(userdata = null):
 	while true:
 		semaphore.wait()   # Wait until we posted by queue.

@@ -1,8 +1,12 @@
 @tool
 extends Node3D
+## A camera that orbits around a point.
 
+## The radius of the orbit.
 @export var radius: float = 50.0: set = setRadius
+## The speed of the orbit.
 @export var speed: float = 0.1
+## Whether the camera should play in the editor.
 @export var _play_in_editor: bool = true
 
 @onready var _camera = $Camera3D
@@ -19,6 +23,7 @@ func _process(delta):
 	rotate(transform.basis.y.normalized(), speed * delta)
 
 
+## Sets the radius of the orbit.
 func setRadius(new):
 	radius = new
 	if _camera:

@@ -2,16 +2,23 @@
 @icon("../../resources/icons/planet.svg")
 class_name Planet
 extends Node3D
-# Class for a planet taking care of terrain, atmosphere, water etc.
+## Class for a planet taking care of terrain, atmosphere, water etc.
 
-@export var do_generate: bool = false: set = set_do_generate
+## Generate the planet based on settings.
+@export_tool_button("Generate") var generate_action = generate
+## The settings for the planet.
 @export var settings: PlanetSettings
+## The material for the planet's terrain.
 @export var material: Material
-@export_node_path("SolarSystem") var solar_system_path: NodePath
-@export_node_path("Sun") var sun_path: NodePath
+## The path to the solar system node.
+@export_node_path("SolarSystem") var solar_system_path
+## The path to the sun node.
+@export_node_path("Sun") var sun_path
+
 var _org_water_mesh: Mesh
 var _solar_system: Node
 var _logger := Logger.get_for(self)
+## The mass of the planet.
 var mass: float = pow(10.0, 10)   # TODO: Make this configurable through settings.
 @onready var _terrain: TerrainManager = $TerrainManager
 @onready var _atmosphere = $Atmosphere
@@ -24,7 +31,7 @@ func _ready():
 	generate()
 
 
-# Generate whole planet.
+## Generate whole planet.
 func generate():
 	if not are_conditions_met():
 		return
@@ -53,6 +60,7 @@ func generate():
 		
 	_logger.debug("%s%s started generating after %sms." % [name, str(self), str(Time.get_ticks_msec() - time_before)])
 
+## Checks if the conditions for generating the planet are met.
 func are_conditions_met() -> bool:
 	if not settings or not material:
 		_logger.warn("Settings or material not set, can't generate %s%s." %
@@ -66,9 +74,6 @@ func are_conditions_met() -> bool:
 		_logger.warn("Waiting for %d jobs to finish before generating \"%s%s\"." % [jobs.size(), name, str(self)])
 		return false
 	return true
-
-func set_do_generate(_new):
-	generate()
 
 func _enter_tree():
 	if solar_system_path:

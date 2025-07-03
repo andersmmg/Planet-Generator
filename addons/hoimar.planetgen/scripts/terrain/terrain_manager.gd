@@ -1,6 +1,7 @@
 @tool
 class_name TerrainManager
 extends Node3D
+## This class manages the terrain of a planet.
 
 const Const := preload("../constants.gd")
 
@@ -10,7 +11,7 @@ var planet_material: Material
 var _logger := Logger.get_for(self)
 
 
-# Remove old patches, initialize quadtrees to build terrain patches.
+## Remove old patches, initialize quadtrees to build terrain patches.
 func generate(settings: PlanetSettings, material: Material):
 	planet_settings = settings
 	planet_material = material
@@ -21,6 +22,7 @@ func generate(settings: PlanetSettings, material: Material):
 	_cube_quadtree = CubeQuadTree.new(self)
 
 
+## Sets the viewer for the terrain.
 func set_viewer(viewer: Node3D):
 	if _cube_quadtree:
 		_cube_quadtree.set_viewer(viewer)

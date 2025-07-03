@@ -1,5 +1,5 @@
 extends CharacterBody3D
-# Ship controller. Also handles the camera.
+## Ship controller. Also handles the camera.
 
 const Constants := preload("../constants.gd")
 const SHAKE_MAX_DEGREES := Vector3(0.005, 0.005, 0.015)
@@ -12,6 +12,7 @@ enum CAMERASTATE {FOLLOW, ROTATE}
 var _mouse_speed := Vector2()
 var _current_speed: float
 var _camera_noise := FastNoiseLite.new()
+## The speed scale of the ship.
 var speed_scale := 0.0005
 
 @onready var _camera_pivot := $CameraPivot
@@ -84,6 +85,7 @@ func _input(event):
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_current_speed -= speed_scale
 
+## Shakes the camera based on the ship's speed.
 func shake_camera():
 	# Normalize the speed factor.
 	var speed_factor: float = remap(abs(_current_speed), 0, MAXSPEED, 0, 1)
@@ -96,6 +98,7 @@ func shake_camera():
 	_camera.rotation.y = SHAKE_MAX_DEGREES.y * _camera_noise.get_noise_1d(time*2) * speed_factor
 	_camera.rotation.z = SHAKE_MAX_DEGREES.z * _camera_noise.get_noise_1d(time*3) * speed_factor
 
+## Adjusts the thruster particles based on the ship's speed.
 func adjust_thrusters():
 	var lifetime = remap(abs(_current_speed), 0, MAXSPEED, 0, MAXPARTICLETIME)
 	_thrust_particles_left.visible = lifetime > 0.0

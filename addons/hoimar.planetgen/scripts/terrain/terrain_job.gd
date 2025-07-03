@@ -1,7 +1,6 @@
 @tool
 class_name TerrainJob
-
-# Class that takes care of building one patch of terrain from PatchData object.
+## Class that takes care of building one patch of terrain from PatchData object.
 
 const TERRAIN_PATCH_SCENE = preload("../../scenes/terrain/terrain_patch.tscn")
 
@@ -15,6 +14,7 @@ func _init(data: PatchData):
 	_data = data
 
 
+## Runs the terrain job.
 func run():
 	if _is_aborted:    # Check before running job.
 		emit_signal("job_finished", self, null)
@@ -28,14 +28,16 @@ func run():
 		emit_signal("job_finished", self, patch)   # Return results.
 
 
-# "Setter" function used only to abort the job.
+## "Setter" function used only to abort the job.
 func abort(b := true):
 	_is_aborted = true
 
 
+## Returns true if the job has been aborted.
 func is_aborted() -> bool:
 	return _is_aborted
 
 
+## Returns the patch data.
 func get_data() -> PatchData:
 	return _data

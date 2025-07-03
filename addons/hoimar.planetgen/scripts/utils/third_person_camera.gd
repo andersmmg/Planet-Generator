@@ -1,7 +1,9 @@
 extends Node3D
+## A third person camera that can be rotated with the mouse.
 
 const Constants := preload("../constants.gd")
 
+## The radius of the camera's orbit around the target.
 @export var _radius: float = 0.6: get = get_radius, set = set_radius
 
 @onready var _camera := $Camera3D
@@ -21,10 +23,12 @@ func _input(event):
 		rotate(transform.basis.y.normalized(), deg_to_rad(-_mouse_speed.x))
 		rotate(transform.basis.x.normalized(), deg_to_rad(-_mouse_speed.y))
 
+## Sets the radius of the camera's orbit.
 func set_radius(new: float):
 	_radius = new
 	_camera.transform.origin = Vector3.ZERO
 	_camera.translate_object_local(Vector3(0, 0, _radius))
 
+## Returns the radius of the camera's orbit.
 func get_radius():
 	return _radius

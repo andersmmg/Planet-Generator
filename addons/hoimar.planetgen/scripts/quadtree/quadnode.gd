@@ -1,12 +1,11 @@
 @tool
 class_name QuadNode
-
-# One quadrant in a quadtree.
-# Lifecycle looks like one of these:
-# 1. PREPARING → WAITING → ACTIVE → SPLITTING → SPLIT → ACTIVE → MAY_MERGE.
-# 2. PREPARING → WAITING → ACTIVE → MAY_MERGE.
-# 3. PREPARING → MAY_MERGE.
-# 4. PREPARING → WAITING → MAY_MERGE.
+## One quadrant in a quadtree.
+## Lifecycle looks like one of these:
+## 1. PREPARING → WAITING → ACTIVE → SPLITTING → SPLIT → ACTIVE → MAY_MERGE.
+## 2. PREPARING → WAITING → ACTIVE → MAY_MERGE.
+## 3. PREPARING → MAY_MERGE.
+## 4. PREPARING → WAITING → MAY_MERGE.
 
 const Const := preload("../constants.gd")
 
@@ -15,7 +14,8 @@ enum STATE {PREPARING, WAITING, ACTIVE, SPLITTING, SPLIT, MAY_MERGE}
 var parent: QuadNode
 var depth: int
 var leaves: Array
-var terrain: TerrainPatch   # Terrain patch of this quadtree node.
+## Terrain patch of this quadtree node.
+var terrain: TerrainPatch
 var terrain_job: TerrainJob
 var _state: int = STATE.PREPARING
 var _size: float   # Size of this quad, 1/depth
@@ -47,7 +47,7 @@ func _init(parent: QuadNode, direction: Vector3, terrain_manager: Node3D, leaf_i
 	terrain_job.connect("job_finished", Callable(self, "on_patch_finished").bind(), CONNECT_DEFERRED)
 
 
-# Update this node in the quadtree.
+## Update this node in the quadtree.
 func visit():
 	if not _viewer_node or not _terrain_manager: return
 	var distance: float = _viewer_node.global_transform.origin.distance_to(_terrain_manager.global_transform.origin + _center)
@@ -78,7 +78,7 @@ func visit():
 			merge()   # Viewer has left range while in the process of splitting.
 
 
-# Begin splitting this node up into leaf nodes.
+## Begin splitting this node up into leaf nodes.
 func split_start():
 	if depth == Const.MAX_TREE_DEPTH:
 		return   # Don't split any further.
@@ -90,7 +90,7 @@ func split_start():
 	_state = STATE.SPLITTING
 
 
-# Leaf nodes are done generating and ready to go.
+## Leaf nodes are done generating and ready to go.
 func split_finish():
 	for leaf in leaves:
 		leaf.on_ready_to_show()
@@ -98,6 +98,7 @@ func split_finish():
 	_state = STATE.SPLIT
 
 
+## Merges the leaves of this node back into this node.
 func merge():
 	for leaf in leaves:
 		leaf.destroy()
@@ -106,13 +107,14 @@ func merge():
 	_state = STATE.ACTIVE
 
 
+## Marks this node as redundant, so it can be merged with its siblings.
 func mark_redundant():
 	if not parent:
 		return
 	_state = STATE.MAY_MERGE
 
 
-# Destroys this node, also handles being destroyed while job is running.
+## Destroys this node, also handles being destroyed while job is running.
 func destroy():
 	if terrain_job:
 		terrain_job.abort()
@@ -120,7 +122,7 @@ func destroy():
 		terrain.queue_free()
 
 
-# TerrainPatch for this node is done.
+## Called when the terrain patch for this node is finished generating.
 func on_patch_finished(job: TerrainJob, patch: TerrainPatch):
 	terrain = patch
 	terrain_job = null
@@ -132,6 +134,7 @@ func on_patch_finished(job: TerrainJob, patch: TerrainPatch):
 		on_ready_to_show()
 
 
+## Called when the terrain patch is ready to be shown.
 func on_ready_to_show():
 	assert(terrain_job == null) #,"Terrain job for %s is not done!" % str(self))
 	terrain.set_visible(true)
@@ -141,6 +144,7 @@ func on_ready_to_show():
 		set_viewer(terrain.get_viewport().get_camera_3d())
 
 
+## Returns the number of children of this node.
 func get_num_children() -> int:
 	var result: int
 	for leaf in leaves:
@@ -148,6 +152,7 @@ func get_num_children() -> int:
 	return result
 
 
+## Sets the viewer node for this node and its children.
 func set_viewer(viewer: Node3D):
 	_viewer_node = viewer
 	for leaf in leaves:

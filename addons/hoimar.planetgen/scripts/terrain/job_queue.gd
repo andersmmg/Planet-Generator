@@ -1,8 +1,7 @@
 @tool
 class_name JobQueue
-
-# Handles queueing terrain jobs and feeding them to a defined amount of
-# worker threads, balancing the load.
+## Handles queueing terrain jobs and feeding them to a defined amount of
+## worker threads, balancing the load.
 
 const Const := preload("../constants.gd")
 enum STATE {WORKING, IDLE, CLEANING_UP, CLEANED_UP}
@@ -15,7 +14,8 @@ var _state: int      = STATE.IDLE
 var _state_mutex    := Mutex.new()
 var _queued_jobs    := []   # Jobs that have been queued for processing.
 var _queue_mutex    := Mutex.new()
-var processing_jobs := []   # Jobs that are currently being processed.
+## Jobs that are currently being processed.
+var processing_jobs := []
 var _worker_pool    := []
 var _logger         := Logger.get_for(self)
 var semaphore       := Semaphore.new()
@@ -27,6 +27,7 @@ func _init():
 			_worker_pool.append(WorkerThread.new(self))
 
 
+## Returns true if the job queue is currently working.
 func is_working() -> bool:
 	if _state == STATE.WORKING or _state == STATE.CLEANING_UP:
 		return true
@@ -34,11 +35,12 @@ func is_working() -> bool:
 		return false
 
 
-# Return total number of currently queued and processed jobs.
+## Return total number of currently queued and processed jobs.
 func get_number_of_jobs() -> int:
 	return _queued_jobs.size() + processing_jobs.size()
 
 
+## Returns all jobs for a given planet.
 func get_jobs_for(planet: Planet) -> Array:
 	var result := []
 	_queue_mutex.lock()   # We don't want any surprises while reading.
@@ -52,6 +54,7 @@ func get_jobs_for(planet: Planet) -> Array:
 	return result
 
 
+## Updates the state of the job queue.
 func update_state():
 	if _state == STATE.CLEANING_UP or _state == STATE.CLEANED_UP:
 		return
@@ -64,7 +67,7 @@ func update_state():
 	_state_mutex.unlock()
 
 
-# Add a new job to the queue.
+## Add a new job to the queue.
 func queue(job: TerrainJob):
 	if _state == STATE.CLEANING_UP:
 		return
@@ -76,7 +79,7 @@ func queue(job: TerrainJob):
 	update_state()
 
 
-# Pop and return next job from the queue.
+## Pop and return next job from the queue.
 func fetch_job() -> TerrainJob:
 	if _queued_jobs.is_empty():
 		return null   # May happen while cleaning up.
@@ -89,6 +92,7 @@ func fetch_job() -> TerrainJob:
 	return job
 
 
+## Called when a job has finished.
 func on_job_finished(job: TerrainJob, patch: TerrainPatch):
 	_queue_mutex.lock()
 	processing_jobs.erase(job)
@@ -96,7 +100,7 @@ func on_job_finished(job: TerrainJob, patch: TerrainPatch):
 	update_state()
 
 
-# Clean up jobs and worker threads.
+## Clean up jobs and worker threads.
 func clean_up():
 	if _state == STATE.CLEANING_UP or _state == STATE.CLEANED_UP:
 		return
@@ -122,7 +126,7 @@ func _clean_jobs_and_workers():
 	_state = STATE.CLEANED_UP
 
 
-# Only used when multithreading is not enabled.
+## Only used when multithreading is not enabled.
 func process_queue_without_threads():
 	if Const.THREADS_ENABLED:
 		_logger.warn("process_queue() was called although multithreading is enabled!")
@@ -130,4 +134,3 @@ func process_queue_without_threads():
 		var job: TerrainJob = fetch_job()
 		if job:
 			job.run()
-

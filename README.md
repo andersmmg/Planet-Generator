@@ -17,65 +17,66 @@ It's licensed unter MIT, so you can use it for pretty much anything as long as y
 List of completed features and planned features:
 
 * [ ] editor integration
-    * [x] configurable `ShapeGenerator` resource
-    * [x] configurable `PlanetSettings` resource
-    * [x] configurable `NoiseGenerator` resources to layer noise
-    * [ ] context-aware editor plugin to ease creation of new planets (settings, noise layers, materials?)
-    * [ ] custom inspector plugin for creating and editing above resources
-    * [ ] preview texture for NoiseGenerator resource
-    * [ ] node based editor for terrain shape / noise generators to allow mixing etc.
+	* [x] configurable `ShapeGenerator` resource
+	* [x] configurable `PlanetSettings` resource
+	* [x] configurable `NoiseGenerator` resources to layer noise
+	* [ ] context-aware editor plugin to ease creation of new planets (settings, noise layers, materials?)
+	* [ ] custom inspector plugin for creating and editing above resources
+	* [ ] preview texture for NoiseGenerator resource
+	* [ ] node based editor for terrain shape / noise generators to allow mixing etc.
 * [ ] graphics
-    * [x] basic terrain coloring based on height using a gradient texture
-    * [x] basic atmosphere shader
-    * [x] basic water
-    * [ ] texture mapping (triplanar)
-    * [ ] better water with reflections and adjustable sea level
-    * [ ] cloud layer around planet
-    * [ ] bloom and lens flare effects
+	* [x] basic terrain coloring based on height using a gradient texture
+	* [x] basic atmosphere shader
+	* [x] basic water
+	* [ ] texture mapping (triplanar)
+	* [ ] better water with reflections
+	* [x] adjustable sea level
+	* [ ] cloud layer around planet
+	* [ ] bloom and lens flare effects
 * [ ] terrain generation
-    * [x] quadtree for automatic LOD subdivision of terrain patches
-    * [x] seamless terrain patches
-    * [x] terrain collision using `PhysicsServer`
-    * [ ] height curve for fine-tuning height levels
-    * [ ] different types of `NoiseGenerators`
-        * [x] `NoiseGenerator` (standard)
-        * [x] `RidgedNoiseGenerator` (generates mountainous ridges)
-        * [ ] simple erosion (morphological erosion, dilation, etc.)
-        * [ ] generators for other interesting terrain patterns
-    * [ ] multiple noise maps:
-        * [ ] height map
-        * [ ] biome / terrain type map
-        * [ ] rivers
-    * [ ] more detail on ground level: vegetation, rocks, etc. using instancing
-    * [ ] allow generator to output not just straight to geometry but also to heightmaps, values, etc. for offline use
-    * [ ] allow building terrain from different inputs like procedural noise but also heightmaps, values, files, etc.
-    * [ ] allow mixing of inputs, see also "editor integration" (e.g. heightmap and noise)
+	* [x] quadtree for automatic LOD subdivision of terrain patches
+	* [x] seamless terrain patches
+	* [x] terrain collision using `PhysicsServer`
+	* [ ] height curve for fine-tuning height levels
+	* [ ] different types of `NoiseGenerators`
+		* [x] `NoiseGenerator` (standard)
+		* [x] `RidgedNoiseGenerator` (generates mountainous ridges)
+		* [ ] simple erosion (morphological erosion, dilation, etc.)
+		* [ ] generators for other interesting terrain patterns
+	* [ ] multiple noise maps:
+		* [ ] height map
+		* [ ] biome / terrain type map
+		* [ ] rivers
+	* [ ] more detail on ground level: vegetation, rocks, etc. using instancing
+	* [ ] allow generator to output not just straight to geometry but also to heightmaps, values, etc. for offline use
+	* [ ] allow building terrain from different inputs like procedural noise but also heightmaps, values, files, etc.
+	* [ ] allow mixing of inputs, see also "editor integration" (e.g. heightmap and noise)
 * [ ] documentation
-    * [x] installing the addon
-    * [ ] basic usage
-    * [ ] creating new planets
-    * [ ] extending the addon
+	* [x] installing the addon
+	* [ ] basic usage
+	* [ ] creating new planets
+	* [ ] extending the addon
 * [x] demo scenes with a spaceship to explore planets
 * [ ] other improvements
-    * [ ] allow for larger scale (1 Godot unit = 1m? 1km?)
-        * [x] use a scene origin shifter to keep player close to origin and thus mitigate lack float precision
-        * [ ] enlarge scale, but shrink the universe while inside the editor to make it more maneuverable
-        * [ ] use another atmosphere shader which doesn't glitch at higher scale
-    * [ ] add simple planetary orbits
-    * [ ] add gravity
-    * [x] graceful loading and unloading of the addon, solar systems and planets
-    * [x] simple benchmark and diagnostics HUD
-    * [ ] performance optimization:
-        * [x] multithreaded terrain generation using `WorkerThread`
-        * [x] `JobQueue` for `TerrainJob` which feeds the worker threads with jobs
-        * [ ] explore computing terrain data on the GPU (shaders, rendering to a viewport)
-        * [ ] rewrite core parts in C#? (as parallel branch?)
-        * [ ] rewrite core parts as GDNative module with C or C++? (as parallel branch?)
+	* [ ] allow for larger scale (1 Godot unit = 1m? 1km?)
+		* [x] use a scene origin shifter to keep player close to origin and thus mitigate lack float precision
+		* [ ] enlarge scale, but shrink the universe while inside the editor to make it more maneuverable
+		* [ ] use another atmosphere shader which doesn't glitch at higher scale
+	* [ ] add simple planetary orbits
+	* [ ] add gravity
+	* [x] graceful loading and unloading of the addon, solar systems and planets
+	* [x] simple benchmark and diagnostics HUD
+	* [ ] performance optimization:
+		* [x] multithreaded terrain generation using `WorkerThread`
+		* [x] `JobQueue` for `TerrainJob` which feeds the worker threads with jobs
+		* [ ] explore computing terrain data on the GPU (shaders, rendering to a viewport)
+		* [ ] rewrite core parts in C#? (as parallel branch?)
+		* [ ] rewrite core parts as GDNative module with C or C++? (as parallel branch?)
 
 
 ## Usage
 
-You need the Godot Engine to use this addon (tested with Godot 3.x.x).
+You need the Godot Engine to use this addon (tested with Godot 4.4.1).
 
 ### Quick Start
 
@@ -120,4 +121,3 @@ Click to enlarge:
 * [atmosphere shader](https://github.com/Zylann/godot_atmosphere_shader) by Zylann aka Marc Gilleron, shared under the MIT license, slightly adapted
 * icons are CC0 from [svgrepo.com](https://svgrepo.com/)
 * inspired by [this amazing tutorial](https://www.youtube.com/watch?v=QN39W020LqU&index=2&t=0s&list=PLFt_AvWsXl0cONs3T0By4puYy6GM22ko8) for creating procedural planets by Sebastian Lague
-

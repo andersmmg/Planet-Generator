@@ -15,6 +15,7 @@
 
 [node name="SolarSystemDemo" type="Node3D"]
 script = ExtResource("1")
+metadata/_custom_type_script = "uid://bidgjbcvwsf83"
 
 [node name="Gui" parent="." instance=ExtResource("5")]
 

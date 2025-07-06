@@ -8,7 +8,7 @@ const Const := preload("../constants.gd")
 var _cube_quadtree: CubeQuadTree
 var planet_settings: PlanetSettings
 var planet_material: Material
-var _logger := Logger.get_for(self)
+var _logger := Logger2.get_for(self)
 
 
 ## Remove old patches, initialize quadtrees to build terrain patches.

@@ -17,7 +17,7 @@ var _queue_mutex    := Mutex.new()
 ## Jobs that are currently being processed.
 var processing_jobs := []
 var _worker_pool    := []
-var _logger         := Logger.get_for(self)
+var _logger         := Logger2.get_for(self)
 var semaphore       := Semaphore.new()
 
 

@@ -1,4 +1,4 @@
-class_name Logger
+class_name Logger2
 ## A simple logger class.
 
 class Standard:

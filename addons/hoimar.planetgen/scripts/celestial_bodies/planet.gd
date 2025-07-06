@@ -17,7 +17,7 @@ extends Node3D
 
 var _org_water_mesh: Mesh
 var _solar_system: Node
-var _logger := Logger.get_for(self)
+var _logger := Logger2.get_for(self)
 ## The mass of the planet.
 var mass: float = pow(10.0, 10)   # TODO: Make this configurable through settings.
 @onready var _terrain: TerrainManager = $TerrainManager
@@ -84,15 +84,15 @@ func generate():
 ## Checks if the conditions for generating the planet are met.
 func are_conditions_met() -> bool:
 	if not settings or not material:
-		_logger.warn("Settings or material not set, can't generate %s%s." %
-			[name, str(self)])
+		_logger.warn("Settings or material not set, can't generate %s." %
+			str(self))
 		return false
 	if not _terrain:
-		_logger.warn("Terrain %s%s for not yet initialized." % [name, str(self)])
+		_logger.warn("Terrain %s for not yet initialized." % str(self))
 		return false
 	var jobs: Array = PGGlobals.job_queue.get_jobs_for(self)
 	if !jobs.is_empty() and not PGGlobals.benchmark_mode:
-		_logger.warn("Waiting for %d jobs to finish before generating \"%s%s\"." % [jobs.size(), name, str(self)])
+		_logger.warn("Waiting for %d jobs to finish before generating %s." % [jobs.size(), str(self)])
 		return false
 	return true
 

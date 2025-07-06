@@ -8,37 +8,21 @@
 [sub_resource type="Resource" id="1"]
 resource_name = "Continents"
 script = ExtResource("3")
-enabled = true
-use_first_as_mask = false
-seed_value = 0
 strength = 0.02
-fractal_octaves = 4
 period = 0.5
-frequency = 0.6
-center = Vector3(0, 0, 0)
 
 [sub_resource type="Resource" id="2"]
 resource_name = "Large Ridges"
 script = ExtResource("2")
-enabled = true
-use_first_as_mask = false
-seed_value = 0
 strength = 0.03
-fractal_octaves = 4
 period = 0.2
-frequency = 0.6
-center = Vector3(0, 0, 0)
 
 [sub_resource type="Resource" id="Resource_jq4mj"]
 script = ExtResource("3")
-enabled = true
-use_first_as_mask = false
-seed_value = 0
 strength = 0.01
 fractal_octaves = 5
 period = 0.01
 frequency = 1.0
-center = Vector3(0, 0, 0)
 metadata/_custom_type_script = "uid://xypgay2rjrdd"
 
 [sub_resource type="Resource" id="3"]
@@ -49,11 +33,6 @@ noise_generators = Array[ExtResource("3")]([SubResource("1"), SubResource("2"), 
 script = ExtResource("4")
 resolution = 150
 radius = 30.0
-has_water = false
-water_level_offset = 0.0
 has_atmosphere = false
-has_collisions = true
 atmosphere_thickness = 2.0
-atmosphere_density = 0.1
-atmosphere_padding = 0.0
 shape_generator = SubResource("3")

@@ -120,16 +120,15 @@ func init_physics():
 	data.settings.shared_mutex.unlock()
 	calc_face_vertices()   # Prepare array with ordered face vertices.
 	update_transform()
-	PhysicsServer3D.shape_set_data(_shape_rid, faces)
+	PhysicsServer3D.shape_set_data(_shape_rid, {"faces": faces})
 	PhysicsServer3D.body_add_shape(_body_rid, _shape_rid)
-	PhysicsServer3D.body_set_shape_disabled(_body_rid, 0, true)
+	PhysicsServer3D.body_set_shape_disabled(_body_rid, 0, false)
 	PhysicsServer3D.body_set_collision_layer(_body_rid, 1)
 	PhysicsServer3D.body_set_collision_mask(_body_rid, 1)
 
 
 ## Updates the transform of the physics body.
 func update_transform():
-	print(_body_rid)
 	var transform: Transform3D = data.settings._planet.global_transform
 	PhysicsServer3D.body_set_state(_body_rid, PhysicsServer3D.BODY_STATE_TRANSFORM,
 			transform)

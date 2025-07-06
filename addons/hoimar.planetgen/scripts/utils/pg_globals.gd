@@ -54,13 +54,3 @@ func set_wireframe(value: bool):
 
 func _process(delta):
 	job_queue.process_queue_without_threads()
-
-
-func _input(event):
-	if Engine.is_editor_hint():
-		return
-	if Input.is_action_just_pressed("toggle_mouse_capture"):
-			if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			else:
-				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

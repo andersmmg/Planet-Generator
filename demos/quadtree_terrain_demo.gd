@@ -25,3 +25,13 @@ func set_play_in_editor(new: bool):
 	_play_in_editor = new
 	if _planet:
 		_planet._terrain.set_viewer(_view_position)
+
+
+func _input(_event):
+	if Engine.is_editor_hint():
+		return
+	if Input.is_action_just_pressed("toggle_mouse_capture"):
+			if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			else:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

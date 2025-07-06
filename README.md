@@ -24,6 +24,7 @@ List of completed features and planned features:
 	* [ ] custom inspector plugin for creating and editing above resources
 	* [x] preview texture for NoiseGenerator resource
 	* [ ] node based editor for terrain shape / noise generators to allow mixing etc.
+	* [ ] project settings entries rather than constants for config
 * [ ] graphics
 	* [x] basic terrain coloring based on height using a gradient texture
 	* [x] basic atmosphere shader

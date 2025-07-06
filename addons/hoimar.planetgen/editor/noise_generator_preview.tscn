@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw5lf07isvprr"]
+
+[ext_resource type="Script" uid="uid://ctqvcf7kv2wxw" path="res://addons/hoimar.planetgen/editor/noise_generator_preview.gd" id="1_f4w8m"]
+
+[node name="NoiseGeneratorPreview" type="VBoxContainer"]
+offset_right = 114.0
+offset_bottom = 27.0
+script = ExtResource("1_f4w8m")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PreviewTexture" type="TextureRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 128)
+layout_mode = 2
+tooltip_text = "Noise preview"
+expand_mode = 2
+stretch_mode = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/CenterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="ZoomInButton" type="Button" parent="HBoxContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Zoom in preview "
+flat = true
+icon_alignment = 1
+
+[node name="ZoomResetButton" type="Button" parent="HBoxContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Reset preview zoom"
+flat = true
+icon_alignment = 1
+
+[node name="ZoomOutButton" type="Button" parent="HBoxContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Zoom out preview"
+flat = true
+icon_alignment = 1
+
+[connection signal="pressed" from="HBoxContainer/CenterContainer/VBoxContainer/ZoomInButton" to="." method="_on_zoom_in_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/CenterContainer/VBoxContainer/ZoomResetButton" to="." method="_on_zoom_reset_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/CenterContainer/VBoxContainer/ZoomOutButton" to="." method="_on_zoom_out_button_pressed"]

@@ -22,7 +22,7 @@ List of completed features and planned features:
 	* [x] configurable `NoiseGenerator` resources to layer noise
 	* [ ] context-aware editor plugin to ease creation of new planets (settings, noise layers, materials?)
 	* [ ] custom inspector plugin for creating and editing above resources
-	* [ ] preview texture for NoiseGenerator resource
+	* [x] preview texture for NoiseGenerator resource
 	* [ ] node based editor for terrain shape / noise generators to allow mixing etc.
 * [ ] graphics
 	* [x] basic terrain coloring based on height using a gradient texture

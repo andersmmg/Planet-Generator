@@ -3,6 +3,8 @@ class_name NoiseGenerator
 extends Resource
 ## This resource contains the settings for a noise generator.
 
+signal updated
+
 ## Whether the noise generator is enabled.
 @export var enabled: bool = true: set = set_enabled
 ## Whether to use the first noise layer as a mask for the second.
@@ -45,6 +47,7 @@ func update_settings():
 	_simplex.frequency = frequency
 	if _planet:
 		_planet.generate()
+	updated.emit()
 
 
 ## Evaluates the noise at a given position.

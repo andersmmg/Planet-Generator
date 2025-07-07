@@ -29,7 +29,7 @@ metadata/_custom_type_script = "uid://xypgay2rjrdd"
 
 [sub_resource type="Resource" id="Resource_ja783"]
 script = ExtResource("3")
-strength = 0.0010000000038417056
+strength = 0.0010000000038417
 fractal_octaves = 6
 frequency = 10.0
 metadata/_custom_type_script = "uid://xypgay2rjrdd"

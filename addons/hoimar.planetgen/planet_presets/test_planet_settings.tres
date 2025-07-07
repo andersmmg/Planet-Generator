@@ -19,4 +19,5 @@ script = ExtResource("1")
 resolution = 30
 has_atmosphere = false
 has_collisions = false
+has_gravity = null
 shape_generator = SubResource("2")

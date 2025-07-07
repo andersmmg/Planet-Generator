@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dtmgyl1uf7auy"]
+[gd_scene load_steps=8 format=3 uid="uid://dtmgyl1uf7auy"]
 
 [ext_resource type="Script" uid="uid://dojj4tue7mt42" path="res://addons/hoimar.planetgen/scripts/celestial_bodies/planet.gd" id="1"]
 [ext_resource type="Material" uid="uid://d082qpq5nmg6j" path="res://addons/hoimar.planetgen/resources/materials/water.tres" id="2"]
@@ -15,6 +15,9 @@ rings = 128
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_88oxr"]
 albedo_color = Color(0.20249, 0.544541, 0.736925, 1)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_88oxr"]
+radius = 50.0
+
 [node name="Planet" type="Node3D"]
 script = ExtResource("1")
 
@@ -29,3 +32,14 @@ shader_params/u_day_color1 = Color(0.72549, 0.854902, 0.945098, 1)
 gi_mode = 0
 mesh = SubResource("1")
 surface_material_override/0 = SubResource("StandardMaterial3D_88oxr")
+
+[node name="GravityArea" type="Area3D" parent="."]
+gravity_space_override = 1
+gravity_point = true
+gravity_point_unit_distance = 100.0
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+gravity = 1.625
+
+[node name="GravitySphere" type="CollisionShape3D" parent="GravityArea"]
+shape = SubResource("SphereShape3D_88oxr")

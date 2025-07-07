@@ -21,6 +21,9 @@ extends Resource
 ## Whether the planet has collisions.
 @export var has_collisions: bool = true:
 	set = set_has_collisions
+## Whether the planet has gravity.
+@export var has_gravity: bool = true:
+	set = set_has_gravity
 ## The thickness of the atmosphere.
 @export_range(1.0, 10000.0) var atmosphere_thickness: float = 1.15:
 	set = set_atmosphere_thickness
@@ -103,6 +106,12 @@ func set_atmosphere_padding(new: float):
 ## Sets whether the planet has collisions.
 func set_has_collisions(new: bool):
 	has_collisions = new
+	on_settings_changed()
+
+
+## Sets whether the planet has gravity.
+func set_has_gravity(new: bool):
+	has_gravity = new
 	on_settings_changed()
 
 

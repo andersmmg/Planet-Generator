@@ -23,6 +23,8 @@ var mass: float = pow(10.0, 10)  # TODO: Make this configurable through settings
 @onready var _terrain: TerrainManager = $TerrainManager
 @onready var _atmosphere = $Atmosphere
 @onready var _water_sphere: MeshInstance3D = $WaterSphere
+@onready var _gravity_sphere: CollisionShape3D = $GravityArea/GravitySphere
+@onready var _gravity_area: Area3D = $GravityArea
 
 var _debounce_counter := 0.0
 var _needs_generate := false
@@ -77,6 +79,13 @@ func generate():
 		_atmosphere.atmosphere_height = settings.atmosphere_thickness
 		_atmosphere.atmosphere_density = settings.atmosphere_density
 		_atmosphere.set_sun_path("../" + str(sun_path))
+
+	_gravity_sphere.disabled = !settings.has_gravity
+	if settings.has_gravity:
+		var new_shape := SphereShape3D.new()
+		new_shape.radius = settings.radius * 1.5
+		_gravity_sphere.shape = new_shape
+		_gravity_area.gravity_point_unit_distance = settings.radius
 
 	_logger.debug(
 		(

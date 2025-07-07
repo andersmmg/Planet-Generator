@@ -3,7 +3,8 @@ extends Node3D
 ## A camera that orbits around a point.
 
 ## The radius of the orbit.
-@export var radius: float = 50.0: set = setRadius
+@export var radius: float = 50.0:
+	set = setRadius
 ## The speed of the orbit.
 @export var speed: float = 0.1
 ## Whether the camera should play in the editor.

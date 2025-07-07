@@ -9,7 +9,10 @@ extends EditorPlugin
 const PLUGIN_ICON := preload("resources/icons/solar_system.svg")
 const PG_GLOBALS_PATH = "res://addons/hoimar.planetgen/scripts/utils/pg_globals.gd"
 
-var _noise_generator_inspector = preload("res://addons/hoimar.planetgen/editor/noise_generator_inspector.gd").new()
+var _noise_generator_inspector = (
+	preload("res://addons/hoimar.planetgen/editor/noise_generator_inspector.gd").new()
+)
+
 
 ## Called when the plugin is activated.
 ## Adds the "PGGlobals" autoload singleton and the "Solar System" custom type.

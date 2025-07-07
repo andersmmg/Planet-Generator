@@ -25,7 +25,7 @@ period = 0.5
 resource_name = "Coarse Detail"
 script = ExtResource("3")
 use_first_as_mask = true
-seed_value = 1
+seed_value = 2
 strength = 5.0
 
 [sub_resource type="Resource" id="4"]
@@ -33,7 +33,7 @@ resource_name = "Fine Detail"
 script = ExtResource("3")
 use_first_as_mask = true
 seed_value = 123
-strength = 0.1
+strength = 0.10000000000582077
 period = 0.0005
 
 [sub_resource type="Resource" id="5"]

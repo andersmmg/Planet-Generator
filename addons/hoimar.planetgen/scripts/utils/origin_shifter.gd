@@ -8,13 +8,16 @@ const MAX_DISTANCE := 2000.0
 @onready var world_node: Node3D = get_node_or_null(world_node_path)
 @onready var parent := get_parent()
 
+
 func _ready():
 	if !world_node:
 		world_node = get_node("../..")
 
+
 func _process(delta):
 	if parent.global_transform.origin.length() > MAX_DISTANCE:
 		shift_origin()
+
 
 ## Shifts the origin of the world.
 func shift_origin():

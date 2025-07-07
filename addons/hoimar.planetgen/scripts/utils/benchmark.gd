@@ -4,7 +4,8 @@ extends Node3D
 const Const := preload("../constants.gd")
 
 @onready var _label := $CanvasLayer/Control/Panel/MarginContainer/VBoxContainer/Label
-@onready var _spin_box := $CanvasLayer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/SpinBox
+@onready
+var _spin_box := $CanvasLayer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/SpinBox
 @onready var _button_benchmark := $CanvasLayer/Control/Panel/MarginContainer/VBoxContainer/Button
 @onready var _planet := $Planet
 var _duration: int
@@ -42,8 +43,7 @@ func start():
 		await PGGlobals.job_queue.all_finished
 		var _deltat = Time.get_ticks_usec() - _tstart
 		_duration += _deltat
-		print("Iteration %d finished in %.3fms." \
-				% [i + 1, (_deltat) / 1000.0])
+		print("Iteration %d finished in %.3fms." % [i + 1, (_deltat) / 1000.0])
 		await get_tree().process_frame
 	stop()
 	_button_benchmark.disabled = false
@@ -51,7 +51,6 @@ func start():
 
 ## Stops the benchmark.
 func stop():
-	var text = "Generated %d times in %.3fms." \
-			% [_spin_box.value, _duration / 1000.0]
+	var text = "Generated %d times in %.3fms." % [_spin_box.value, _duration / 1000.0]
 	_label.text = text
 	print(text)

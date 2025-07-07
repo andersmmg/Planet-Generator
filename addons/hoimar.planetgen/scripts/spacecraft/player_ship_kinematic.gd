@@ -7,7 +7,7 @@ const MAXSPEED = 20.0
 const ROTATIONSPEED = 0.01
 const MAXPARTICLETIME = 0.1
 
-enum CAMERASTATE {FOLLOW, ROTATE}
+enum CAMERASTATE { FOLLOW, ROTATE }
 
 var _mouse_speed := Vector2()
 var _current_speed: float
@@ -24,6 +24,7 @@ var speed_scale := 0.0005
 @onready var _org_pivot_transform: Transform3D = _camera_pivot.get_transform()
 @onready var _org_camera_rotation: Vector3 = _camera.rotation
 
+
 func _ready():
 	_camera_noise.seed = randi()
 	_camera_noise.period = 0.4
@@ -32,6 +33,7 @@ func _ready():
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	set_process_input(true)
+
 
 func _physics_process(_delta):
 	var input := Vector3.ZERO
@@ -54,9 +56,17 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("toggle_camera_mode"):
 		_camera_tween.stop_all()
 	if Input.is_action_just_released("toggle_camera_mode") and not _camera_tween.is_active():
-		_camera_tween.interpolate_property(_camera_pivot, "transform:basis", null, _org_pivot_transform.basis, 1.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+		_camera_tween.interpolate_property(
+			_camera_pivot,
+			"transform:basis",
+			null,
+			_org_pivot_transform.basis,
+			1.2,
+			Tween.TRANS_CUBIC,
+			Tween.EASE_IN_OUT
+		)
 		_camera_tween.start()
-	
+
 	if rotation_z:
 		rotate_object_local(Vector3.FORWARD, rotation_z)
 
@@ -64,16 +74,21 @@ func _physics_process(_delta):
 	var direction = (transform.basis.z * input.z + transform.basis.x * input.x).normalized()
 	velocity = direction * MAXSPEED
 	move_and_slide()
-	
+
 	shake_camera()
 	adjust_thrusters()
+
 
 func _input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		_mouse_speed = event.relative * PGGlobals.MOUSE_SENSITIVITY
 		if Input.is_action_pressed("toggle_camera_mode"):
-			_camera_pivot.rotate(_camera_pivot.transform.basis.y.normalized(), deg_to_rad(-_mouse_speed.x))
-			_camera_pivot.rotate(_camera_pivot.transform.basis.x.normalized(), deg_to_rad(-_mouse_speed.y))
+			_camera_pivot.rotate(
+				_camera_pivot.transform.basis.y.normalized(), deg_to_rad(-_mouse_speed.x)
+			)
+			_camera_pivot.rotate(
+				_camera_pivot.transform.basis.x.normalized(), deg_to_rad(-_mouse_speed.y)
+			)
 		else:
 			rotate(transform.basis.y.normalized(), deg_to_rad(-_mouse_speed.x))
 			rotate(transform.basis.x.normalized(), deg_to_rad(-_mouse_speed.y))
@@ -82,6 +97,7 @@ func _input(event):
 			_current_speed += speed_scale
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_current_speed -= speed_scale
+
 
 ## Shakes the camera based on the ship's speed.
 func shake_camera():
@@ -93,8 +109,9 @@ func shake_camera():
 	var time = wrapf(Engine.get_frames_drawn() / float(Engine.physics_ticks_per_second), 0, 1000)
 	_camera.rotation = _org_camera_rotation
 	_camera.rotation.x = SHAKE_MAX_DEGREES.x * _camera_noise.get_noise_1d(time) * speed_factor
-	_camera.rotation.y = SHAKE_MAX_DEGREES.y * _camera_noise.get_noise_1d(time*2) * speed_factor
-	_camera.rotation.z = SHAKE_MAX_DEGREES.z * _camera_noise.get_noise_1d(time*3) * speed_factor
+	_camera.rotation.y = SHAKE_MAX_DEGREES.y * _camera_noise.get_noise_1d(time * 2) * speed_factor
+	_camera.rotation.z = SHAKE_MAX_DEGREES.z * _camera_noise.get_noise_1d(time * 3) * speed_factor
+
 
 ## Adjusts the thruster particles based on the ship's speed.
 func adjust_thrusters():

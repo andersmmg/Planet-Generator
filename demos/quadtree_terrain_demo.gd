@@ -1,8 +1,8 @@
 @tool
 extends Node3D
 
-
-@export var _play_in_editor: bool = true: set = set_play_in_editor
+@export var _play_in_editor: bool = true:
+	set = set_play_in_editor
 @export var _rotation_speed: float = 200
 @onready var _view_position_rig := $ViewPositionRig
 @onready var _view_position := $ViewPositionRig/ViewPosition
@@ -31,7 +31,7 @@ func _input(_event):
 	if Engine.is_editor_hint():
 		return
 	if Input.is_action_just_pressed("toggle_mouse_capture"):
-			if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			else:
-				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

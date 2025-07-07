@@ -14,8 +14,8 @@ var normals: PackedVector3Array
 ## Vertices in a format that physics can use.
 var faces: PackedVector3Array
 
-var _body_rid: RID    # Godot's internal resource ID for the physics body.
-var _shape_rid: RID   # As above, but for the bodies' shape.
+var _body_rid: RID  # Godot's internal resource ID for the physics body.
+var _shape_rid: RID  # As above, but for the bodies' shape.
 
 
 # Node enters scene tree. Finish configuring physics.
@@ -31,35 +31,37 @@ func _process(_delta):
 
 func _notification(what):
 	if Const.COLLISIONS_ENABLED and what == NOTIFICATION_TRANSFORM_CHANGED:
-		update_transform()   # Manually update physics shape position.
+		update_transform()  # Manually update physics shape position.
 
 
 ## Builds the terrain mesh from generator data.
 func build(data: PatchData):
-	self.data           = data
-	self.quadnode       = data.quadnode
-	var verts_per_edge  = data.verts_per_edge
-	var num_verts       = verts_per_edge * verts_per_edge
-	var border_offset  := 1.0 + Const.BORDER_SIZE * 2.0 / (data.settings.resolution - 1)
-	var base_offset    := data.axis_up + data.offset_a + data.offset_b
-	var axis_a_scaled  := data.axis_a * border_offset * 2.0
-	var axis_b_scaled  := data.axis_b * border_offset * 2.0
-	var tri_idx        := 0   # Mapping of vertex index to triangle
-	var min_max        := MinMax.new()   # Store local min and max elevation.
+	self.data = data
+	self.quadnode = data.quadnode
+	var verts_per_edge = data.verts_per_edge
+	var num_verts = verts_per_edge * verts_per_edge
+	var border_offset := 1.0 + Const.BORDER_SIZE * 2.0 / (data.settings.resolution - 1)
+	var base_offset := data.axis_up + data.offset_a + data.offset_b
+	var axis_a_scaled := data.axis_a * border_offset * 2.0
+	var axis_b_scaled := data.axis_b * border_offset * 2.0
+	var tri_idx := 0  # Mapping of vertex index to triangle
+	var min_max := MinMax.new()  # Store local min and max elevation.
 	var shape_gen: ShapeGenerator = data.settings.shape_generator
 	# Number of triangles: (verts_per_edge - 1)² * 3 vertices * 2 triangles
 	triangles.resize((verts_per_edge - 1) * (verts_per_edge - 1) * 3 * 2)
 	vertices.resize(num_verts)
 	uvs.resize(num_verts)
 	normals.resize(num_verts)
-	
+
 	# Build the mesh.
 	for vertex_idx in num_verts:
 		var x: int = vertex_idx / verts_per_edge
 		var y: int = vertex_idx % verts_per_edge
 		# Calculate position of this vertex.
 		var percent: Vector2 = Vector2(x, y) / (verts_per_edge - 1)
-		var point_on_unit_cube := base_offset  + (percent.x - 0.5) * axis_a_scaled  + (percent.y - 0.5) * axis_b_scaled
+		var point_on_unit_cube := (
+			base_offset + (percent.x - 0.5) * axis_a_scaled + (percent.y - 0.5) * axis_b_scaled
+		)
 		var point_on_unit_sphere: Vector3 = point_on_unit_cube.normalized()
 		var elevation: float = shape_gen.get_unscaled_elevation(point_on_unit_sphere)
 		vertices[vertex_idx] = point_on_unit_sphere * shape_gen.get_scaled_elevation(elevation)
@@ -70,41 +72,43 @@ func build(data: PatchData):
 		#  \ |   | \
 		# 1  3   1--3
 		if x < verts_per_edge - 1 and y < verts_per_edge - 1:
-			triangles[tri_idx]     = vertex_idx
+			triangles[tri_idx] = vertex_idx
 			triangles[tri_idx + 1] = vertex_idx + verts_per_edge + 1
 			triangles[tri_idx + 2] = vertex_idx + verts_per_edge
 			triangles[tri_idx + 3] = vertex_idx
 			triangles[tri_idx + 4] = vertex_idx + 1
 			triangles[tri_idx + 5] = vertex_idx + verts_per_edge + 1
 			tri_idx += 6
-	
+
 	# Adjust global min_max.
 	shape_gen.min_max_mutex.lock()
 	shape_gen.min_max.add_value(min_max.min_value)
 	shape_gen.min_max.add_value(min_max.max_value)
 	shape_gen.min_max_mutex.unlock()
 	# Manipulate vertices.
-	calc_normals()          # Calculate normals before dipping border vertices,
-	calc_terrain_border()   # resulting in smoother terrain patch edges.
+	calc_normals()  # Calculate normals before dipping border vertices,
+	calc_terrain_border()  # resulting in smoother terrain patch edges.
 	calc_uvs()
-	
+
 	if Const.COLLISIONS_ENABLED and data.settings.has_collisions:
 		init_physics()
-	
+
 	# Prepare mesh arrays and create mesh.
 	var mesh_arrays := []
 	mesh_arrays.resize(Mesh.ARRAY_MAX)
 	mesh_arrays[Mesh.ARRAY_VERTEX] = vertices
 	mesh_arrays[Mesh.ARRAY_NORMAL] = normals
 	mesh_arrays[Mesh.ARRAY_TEX_UV] = uvs
-	mesh_arrays[Mesh.ARRAY_INDEX]  = triangles
+	mesh_arrays[Mesh.ARRAY_INDEX] = triangles
 	mesh = ArrayMesh.new()
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, mesh_arrays)
-	
+
 	# Special material needed?
-	if not Engine.is_editor_hint() \
-			and PGGlobals.colored_patches \
-			and data.material is StandardMaterial3D:
+	if (
+		not Engine.is_editor_hint()
+		and PGGlobals.colored_patches
+		and data.material is StandardMaterial3D
+	):
 		data.material = data.material.duplicate()
 		data.material.albedo_color = Color(randi())
 	mesh.surface_set_material(0, data.material)
@@ -116,9 +120,9 @@ func build(data: PatchData):
 func init_physics():
 	data.settings.shared_mutex.lock()
 	_shape_rid = PhysicsServer3D.concave_polygon_shape_create()
-	_body_rid  = PhysicsServer3D.body_create()
+	_body_rid = PhysicsServer3D.body_create()
 	data.settings.shared_mutex.unlock()
-	calc_face_vertices()   # Prepare array with ordered face vertices.
+	calc_face_vertices()  # Prepare array with ordered face vertices.
 	update_transform()
 	PhysicsServer3D.shape_set_data(_shape_rid, {"faces": faces})
 	PhysicsServer3D.body_add_shape(_body_rid, _shape_rid)
@@ -130,8 +134,7 @@ func init_physics():
 ## Updates the transform of the physics body.
 func update_transform():
 	var transform: Transform3D = data.settings._planet.global_transform
-	PhysicsServer3D.body_set_state(_body_rid, PhysicsServer3D.BODY_STATE_TRANSFORM,
-			transform)
+	PhysicsServer3D.body_set_state(_body_rid, PhysicsServer3D.BODY_STATE_TRANSFORM, transform)
 
 
 ## Prevents jagged LOD borders by lowering border vertices.
@@ -140,13 +143,13 @@ func calc_terrain_border():
 	var dip: float = pow(Const.BORDER_DIP, data.size)
 	# Top and bottom border.
 	for i in range(0, verts_per_edge * verts_per_edge, verts_per_edge):
-		var idx: = i
+		var idx := i
 		vertices[idx] *= dip
 		idx = i + verts_per_edge - 1
 		vertices[idx] *= dip
 	# Left and right border.
 	for i in range(1, verts_per_edge - 1):
-		var idx: = i
+		var idx := i
 		vertices[idx] *= dip
 		idx = i + verts_per_edge * (verts_per_edge - 1)
 		vertices[idx] *= dip
@@ -158,8 +161,8 @@ func calc_terrain_border():
 func calc_normals():
 	for i in range(0, triangles.size(), 3):
 		var vi_a := triangles[i]
-		var vi_b := triangles[i+1]
-		var vi_c := triangles[i+2]
+		var vi_b := triangles[i + 1]
+		var vi_c := triangles[i + 2]
 		var a := vertices[vi_a]
 		var b := vertices[vi_b]
 		var c := vertices[vi_c]

@@ -41,7 +41,11 @@ func _physics_process(delta):
 
 
 func _input(event):
-	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not Input.is_action_pressed("toggle_camera_mode"):
+	if (
+		event is InputEventMouseMotion
+		and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
+		and not Input.is_action_pressed("toggle_camera_mode")
+	):
 		_mouse_speed = event.relative * Constants.MOUSE_SENSITIVITY * 0.005
 		ship.rotate(ship.transform.basis.y.normalized(), -_mouse_speed.x)
 		ship.rotate(ship.transform.basis.x.normalized(), -_mouse_speed.y)

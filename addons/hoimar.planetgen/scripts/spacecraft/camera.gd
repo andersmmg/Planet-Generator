@@ -5,8 +5,7 @@ const MIN_WEIGHT: float = 0.05
 const MAX_WEIGHT: float = 0.6
 
 ## The target to follow.
-@onready
-@export var target: NodePath
+@onready @export var target: NodePath
 ## The weight of the interpolation.
 @export var weight: float = 0.6
 
@@ -19,6 +18,7 @@ func _physics_process(delta):
 	var targetTransform: Transform3D = get_node(target).global_transform
 	var distance = targetTransform.origin.distance_to(transform.origin)
 	# Calculate dynamic weight.
-	var dynamicWeight = max(MIN_WEIGHT, min(MAX_WEIGHT, 
-			remap(distance, 0.1, 2.0, MIN_WEIGHT, MAX_WEIGHT)))
+	var dynamicWeight = max(
+		MIN_WEIGHT, min(MAX_WEIGHT, remap(distance, 0.1, 2.0, MIN_WEIGHT, MAX_WEIGHT))
+	)
 	transform = transform.interpolate_with(targetTransform, dynamicWeight)

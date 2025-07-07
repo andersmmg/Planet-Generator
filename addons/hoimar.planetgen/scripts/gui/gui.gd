@@ -3,8 +3,8 @@ extends Node
 
 @onready var lbl_status := $Root/MarginContainer/HBoxContainer/LabelStatus
 @onready var lbl_speedscale := $Root/MarginContainer/HBoxContainer/Control/LabelSpeedScale
-@onready var slider_speedscale := $Root/MarginContainer/HBoxContainer/Control/HSlider 
-var ship : Node3D
+@onready var slider_speedscale := $Root/MarginContainer/HBoxContainer/Control/HSlider
+var ship: Node3D
 
 
 func _ready():
@@ -16,11 +16,12 @@ func _ready():
 
 func _process(_delta):
 	lbl_status.text = "FPS: %d" % Engine.get_frames_per_second()
-	lbl_status.text += "\nwireframe: %s\ncolored_patches: %s" \
-			% [PGGlobals.wireframe, PGGlobals.colored_patches]
+	lbl_status.text += (
+		"\nwireframe: %s\ncolored_patches: %s" % [PGGlobals.wireframe, PGGlobals.colored_patches]
+	)
 	if ship:
 		if ship.get("_current_speed"):
-			lbl_status.text += "\nspeed: %f km/s" % (round(ship._current_speed*3500)/100)
+			lbl_status.text += "\nspeed: %f km/s" % (round(ship._current_speed * 3500) / 100)
 		if ship.get("linear_velocity"):
 			lbl_status.text += "\nvelocity: %s" % ship.linear_velocity
 	show_planet_info()
@@ -34,8 +35,10 @@ func show_planet_info():
 	var num_jobs: int = PGGlobals.job_queue.get_number_of_jobs()
 	lbl_status.text += "\nTerrain patch queue size: %d" % num_jobs
 	for planet in PGGlobals.solar_systems[0]._all_planets:
-		lbl_status.text += "\n%s%s  |  %d patches" % \
-				[planet.name, str(planet), planet._terrain.get_children().size()]
+		lbl_status.text += (
+			"\n%s%s  |  %d patches"
+			% [planet.name, str(planet), planet._terrain.get_children().size()]
+		)
 
 
 ## Checks for input to toggle debug views.
@@ -63,7 +66,7 @@ func _input(_event):
 	if Engine.is_editor_hint():
 		return
 	if Input.is_action_just_pressed("toggle_mouse_capture"):
-			if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			else:
-				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

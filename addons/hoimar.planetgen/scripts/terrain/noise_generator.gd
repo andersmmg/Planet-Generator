@@ -6,21 +6,29 @@ extends Resource
 signal updated
 
 ## Whether the noise generator is enabled.
-@export var enabled: bool = true: set = set_enabled
+@export var enabled: bool = true:
+	set = set_enabled
 ## Whether to use the first noise layer as a mask for the second.
-@export var use_first_as_mask: bool: set = set_use_first_as_mask
+@export var use_first_as_mask: bool:
+	set = set_use_first_as_mask
 ## The seed for the noise generator.
-@export var seed_value: int: set = set_seed_value
+@export var seed_value: int:
+	set = set_seed_value
 ## The strength of the noise.
-@export var strength: float: set = set_strength
+@export var strength: float:
+	set = set_strength
 ## The number of fractal octaves.
-@export var fractal_octaves: int = 4: set = set_octaves
+@export var fractal_octaves: int = 4:
+	set = set_octaves
 ## The period of the noise.
-@export var period: float = 0.03: set = set_period
+@export var period: float = 0.03:
+	set = set_period
 ## The frequency of the noise.
-@export var frequency: float = 0.6: set = set_frequency
+@export var frequency: float = 0.6:
+	set = set_frequency
 ## The center of the noise.
-@export var center: Vector3: set = set_center
+@export var center: Vector3:
+	set = set_center
 
 # Micro-optimization to make generator functions branchless (no ifs).
 var enabled_int: int
@@ -52,6 +60,8 @@ func update_settings():
 
 ## Evaluates the noise at a given position.
 func evaluate(v: Vector3) -> float:
+	if not _simplex:
+		return 0.0
 	return _simplex.get_noise_3dv(center + v) * strength
 
 

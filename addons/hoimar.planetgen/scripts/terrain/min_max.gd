@@ -17,4 +17,3 @@ func add_value(new: float):
 		min_value = new
 	elif new > max_value:
 		max_value = new
-

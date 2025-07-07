@@ -16,6 +16,7 @@ var min_max_mutex := Mutex.new()
 ## Shorthand for faster access.
 var planet_radius: float
 
+
 ## Initializes the shape generator.
 func init(_planet):
 	self._planet = _planet
@@ -33,13 +34,16 @@ func get_unscaled_elevation(point_on_unit_sphere: Vector3) -> float:
 	var first_ng: NoiseGenerator = noise_generators[0]
 	var first_layer_value: float = first_ng.evaluate(point_on_unit_sphere)
 	var elevation: float = first_layer_value * first_ng.enabled_int
-	
+
 	for i in ng_array:
 		# Get elevation when ng is enabled and use first layer as mask if needed.
 		var ng: NoiseGenerator = noise_generators[i]
 		var use_first_as_mask := ng.use_first_as_mask_int
-		elevation += ng.evaluate(point_on_unit_sphere) * ng.enabled_int \
-				* (first_layer_value * use_first_as_mask + 1 - use_first_as_mask)
+		elevation += (
+			ng.evaluate(point_on_unit_sphere)
+			* ng.enabled_int
+			* (first_layer_value * use_first_as_mask + 1 - use_first_as_mask)
+		)
 	return elevation
 
 
@@ -59,7 +63,7 @@ func calculate_min_max():
 	var first_layer_value: float = noise_generators[0].strength * Const.MIN_MAX_APPROXIMATION
 	if noise_generators[0].enabled:
 		elevation = first_layer_value
-	
+
 	for i in ng_array:
 		var ng: NoiseGenerator = noise_generators[i]
 		if ng.enabled:

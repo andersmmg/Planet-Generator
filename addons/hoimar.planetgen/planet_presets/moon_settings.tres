@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlanetSettings" load_steps=9 format=3 uid="uid://c15gyg7nxeyuj"]
+[gd_resource type="Resource" script_class="PlanetSettings" load_steps=10 format=3 uid="uid://c15gyg7nxeyuj"]
 
 [ext_resource type="Script" uid="uid://d1iirw4ofebo8" path="res://addons/hoimar.planetgen/scripts/terrain/shape_generator.gd" id="1"]
 [ext_resource type="Script" uid="uid://cyywf0d3iwsrk" path="res://addons/hoimar.planetgen/scripts/terrain/ridged_noise_generator.gd" id="2"]
@@ -15,19 +15,28 @@ period = 0.5
 resource_name = "Large Ridges"
 script = ExtResource("2")
 strength = 0.03
+fractal_octaves = 5
 period = 0.2
 
 [sub_resource type="Resource" id="Resource_jq4mj"]
 script = ExtResource("3")
+seed_value = 1
 strength = 0.01
 fractal_octaves = 5
 period = 0.01
 frequency = 1.0
 metadata/_custom_type_script = "uid://xypgay2rjrdd"
 
+[sub_resource type="Resource" id="Resource_ja783"]
+script = ExtResource("3")
+strength = 0.0010000000038417056
+fractal_octaves = 6
+frequency = 10.0
+metadata/_custom_type_script = "uid://xypgay2rjrdd"
+
 [sub_resource type="Resource" id="3"]
 script = ExtResource("1")
-noise_generators = Array[ExtResource("3")]([SubResource("1"), SubResource("2"), SubResource("Resource_jq4mj")])
+noise_generators = Array[ExtResource("3")]([SubResource("1"), SubResource("2"), SubResource("Resource_jq4mj"), SubResource("Resource_ja783")])
 
 [resource]
 script = ExtResource("4")

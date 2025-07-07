@@ -17,9 +17,9 @@ var _noise_generator: NoiseGenerator:
 	set(value):
 		if _noise_generator:
 			_noise_generator.updated.disconnect(_update_texture)
-		
+
 		_noise_generator = value
-		
+
 		if _noise_generator:
 			_noise_generator.updated.connect(_update_texture)
 			_update_texture.call_deferred()
@@ -43,7 +43,8 @@ func _set_icons() -> void:
 
 
 func _update_texture() -> void:
-	if not preview_texture or not _noise_generator: return
+	if not preview_texture or not _noise_generator:
+		return
 	if not preview_texture.texture is NoiseTexture2D:
 		var new_texture := NoiseTexture2D.new()
 		preview_texture.texture = new_texture

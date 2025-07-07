@@ -4,7 +4,7 @@ class_name CubeQuadTree
 
 const Const := preload("../constants.gd")
 
-var _face_quadtrees: Dictionary   # Maps a cube face normal to a quadtree instance.
+var _face_quadtrees: Dictionary  # Maps a cube face normal to a quadtree instance.
 
 
 func _init(terrain_manager):

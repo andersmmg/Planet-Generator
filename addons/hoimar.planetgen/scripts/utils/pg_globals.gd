@@ -5,7 +5,8 @@ extends Node
 const Const := preload("../constants.gd")
 
 ## Whether to draw wireframes.
-var wireframe: bool = false: set = set_wireframe
+var wireframe: bool = false:
+	set = set_wireframe
 ## Colors patches of terrain randomly.
 var colored_patches: bool
 ## re-generates planets even if there are still active threads.
@@ -18,7 +19,7 @@ var speed_scale: float = 0.001
 
 func _ready():
 	if Const.THREADS_ENABLED:
-		set_process(false)   # Otherwise, process queue in single thread.
+		set_process(false)  # Otherwise, process queue in single thread.
 
 
 func _exit_tree():
@@ -49,7 +50,7 @@ func set_wireframe(value: bool):
 	if value:
 		get_viewport().set_debug_draw(SubViewport.DEBUG_DRAW_WIREFRAME)
 	else:
-		get_viewport().set_debug_draw(SubViewport.DEBUG_DRAW_DISABLED);
+		get_viewport().set_debug_draw(SubViewport.DEBUG_DRAW_DISABLED)
 
 
 func _process(delta):

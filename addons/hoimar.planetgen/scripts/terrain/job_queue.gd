@@ -4,21 +4,21 @@ class_name JobQueue
 ## worker threads, balancing the load.
 
 const Const := preload("../constants.gd")
-enum STATE {WORKING, IDLE, CLEANING_UP, CLEANED_UP}
+enum STATE { WORKING, IDLE, CLEANING_UP, CLEANED_UP }
 
 signal all_finished
 
 # Make sure to have at least one worker thread:
-var _num_workers    := max(1, OS.get_processor_count())
-var _state: int      = STATE.IDLE
-var _state_mutex    := Mutex.new()
-var _queued_jobs    := []   # Jobs that have been queued for processing.
-var _queue_mutex    := Mutex.new()
+var _num_workers := max(1, OS.get_processor_count())
+var _state: int = STATE.IDLE
+var _state_mutex := Mutex.new()
+var _queued_jobs := []  # Jobs that have been queued for processing.
+var _queue_mutex := Mutex.new()
 ## Jobs that are currently being processed.
 var processing_jobs := []
-var _worker_pool    := []
-var _logger         := Logger2.get_for(self)
-var semaphore       := Semaphore.new()
+var _worker_pool := []
+var _logger := Logger2.get_for(self)
+var semaphore := Semaphore.new()
 
 
 func _init():
@@ -43,7 +43,7 @@ func get_number_of_jobs() -> int:
 ## Returns all jobs for a given planet.
 func get_jobs_for(planet: Planet) -> Array:
 	var result := []
-	_queue_mutex.lock()   # We don't want any surprises while reading.
+	_queue_mutex.lock()  # We don't want any surprises while reading.
 	for job in _queued_jobs:
 		if job.get_data().settings.get_planet() == planet:
 			result.append(job)
@@ -61,7 +61,7 @@ func update_state():
 	_state_mutex.lock()
 	if _queued_jobs.is_empty() and processing_jobs.is_empty():
 		_state = STATE.IDLE
-		call_deferred("emit_signal", "all_finished")   # Thread-safe.
+		call_deferred("emit_signal", "all_finished")  # Thread-safe.
 	else:
 		_state = STATE.WORKING
 	_state_mutex.unlock()
@@ -75,14 +75,14 @@ func queue(job: TerrainJob):
 	_queued_jobs.append(job)
 	_queue_mutex.unlock()
 	job.connect("job_finished", Callable(self, "on_job_finished"))
-	semaphore.post()   # The next free worker thread will pick it up.
+	semaphore.post()  # The next free worker thread will pick it up.
 	update_state()
 
 
 ## Pop and return next job from the queue.
 func fetch_job() -> TerrainJob:
 	if _queued_jobs.is_empty():
-		return null   # May happen while cleaning up.
+		return null  # May happen while cleaning up.
 	var job: TerrainJob
 	_queue_mutex.lock()
 	job = _queued_jobs.pop_front()
@@ -113,16 +113,16 @@ func _clean_jobs_and_workers():
 	_state = STATE.CLEANING_UP
 	_state_mutex.unlock()
 	_queue_mutex.lock()
-	_queued_jobs.clear()   # Simply free all jobs, we won't need their results.
+	_queued_jobs.clear()  # Simply free all jobs, we won't need their results.
 	_queue_mutex.unlock()
-	
+
 	await self.all_finished
 	for worker in _num_workers:
-		semaphore.post()   # One last cycle to let worker finish.
+		semaphore.post()  # One last cycle to let worker finish.
 	while !_worker_pool.is_empty():
 		var worker: WorkerThread = _worker_pool.pop_front()
 		if worker.is_active():
-			worker.wait_to_finish()	
+			worker.wait_to_finish()
 	_state = STATE.CLEANED_UP
 
 

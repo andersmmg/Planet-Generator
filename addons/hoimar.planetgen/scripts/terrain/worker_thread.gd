@@ -19,9 +19,9 @@ func _init(job_queue: RefCounted):
 ## Thread function.
 func work(userdata = null):
 	while true:
-		semaphore.wait()   # Wait until we posted by queue.
+		semaphore.wait()  # Wait until we posted by queue.
 		var job: TerrainJob = queue.fetch_job()
 		if job:
 			job.run()
 		else:
-			break   # Semaphore posted but no jobs queued: Worker should stop.
+			break  # Semaphore posted but no jobs queued: Worker should stop.

@@ -36,7 +36,7 @@ extends Resource
 ## The shape generator for the planet's terrain.
 @export var shape_generator: ShapeGenerator
 
-var _planet: Node3D:
+var _planet: Planet:
 	get = get_planet
 ## Used for threads creating physics shapes.
 var shared_mutex := Mutex.new()
@@ -49,10 +49,10 @@ func init(_planet):
 
 
 ## Called when the settings have changed.
-func on_settings_changed():
+func on_settings_changed(generate: bool = true):
 	if not _planet:
 		return
-	_planet.generate()
+	_planet.generate() if generate else _planet.update_nodes()
 
 
 ## Sets the resolution of the planet's terrain.
@@ -70,37 +70,37 @@ func set_radius(new: float):
 ## Sets whether the planet has water.
 func set_has_water(new: bool):
 	has_water = new
-	on_settings_changed()
+	on_settings_changed(false)
 
 
 ## Sets the water level offset.
 func set_water_level_offset(new: float):
 	water_level_offset = new
-	on_settings_changed()
+	on_settings_changed(false)
 
 
 ## Sets whether the planet has an atmosphere.
 func set_has_atmosphere(new: bool):
 	has_atmosphere = new
-	on_settings_changed()
+	on_settings_changed(false)
 
 
 ## Sets the thickness of the atmosphere.
 func set_atmosphere_thickness(new: float):
 	atmosphere_thickness = new
-	on_settings_changed()
+	on_settings_changed(false)
 
 
 ## Sets the density of the atmosphere.
 func set_atmosphere_density(new: float):
 	atmosphere_density = new
-	on_settings_changed()
+	on_settings_changed(false)
 
 
 ## Sets the padding to add to the atmosphere radius.
 func set_atmosphere_padding(new: float):
 	atmosphere_padding = new
-	on_settings_changed()
+	on_settings_changed(false)
 
 
 ## Sets whether the planet has collisions.
@@ -112,9 +112,9 @@ func set_has_collisions(new: bool):
 ## Sets whether the planet has gravity.
 func set_has_gravity(new: bool):
 	has_gravity = new
-	on_settings_changed()
+	on_settings_changed(false)
 
 
 ## Returns the planet node.
-func get_planet() -> Node3D:
+func get_planet() -> Planet:
 	return _planet

@@ -60,6 +60,18 @@ func generate():
 	settings.init(self)
 	_terrain.generate(settings, material)
 
+	update_nodes()
+
+	_logger.debug(
+		(
+			"%s%s started generating after %sms."
+			% [name, str(self), str(Time.get_ticks_msec() - time_before)]
+		)
+	)
+
+
+## Update the values of planet nodes.
+func update_nodes() -> void:
 	# Adjust water.
 	_water_sphere.visible = settings.has_water
 	if settings.has_water:
@@ -86,13 +98,6 @@ func generate():
 		new_shape.radius = settings.radius * 1.5
 		_gravity_sphere.shape = new_shape
 		_gravity_area.gravity_point_unit_distance = settings.radius
-
-	_logger.debug(
-		(
-			"%s%s started generating after %sms."
-			% [name, str(self), str(Time.get_ticks_msec() - time_before)]
-		)
-	)
 
 
 ## Checks if the conditions for generating the planet are met.
